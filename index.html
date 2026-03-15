@@ -1,0 +1,2427 @@
+<html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luxury Nails | Premium Nail Salon in USA</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&amp;family=Poppins:wght@300;400;500;600&amp;display=swap" rel="stylesheet">
+    <!-- Three.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- GSAP for animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/ScrollTrigger.min.js"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#F8D7DA',
+                        secondary: '#FFD700',
+                        dark: '#333333',
+                        light: '#FFFFFF',
+                        accent: '#E57373'
+                    },
+                    fontFamily: {
+                        'playfair': ['Playfair Display', 'serif'],
+                        'poppins': ['Poppins', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Playfair Display', serif;
+        }
+        
+        .text-shadow {
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .btn-primary {
+            background-color: #F8D7DA;
+            color: #333333;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            background-color: #E57373;
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        
+        .btn-secondary {
+            background-color: #FFD700;
+            color: #333333;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #FFC107;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        
+        .card {
+            transition: all 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        .nav-link {
+            position: relative;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -2px;
+            left: 0;
+            background-color: #E57373;
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        .active::after {
+            width: 100%;
+        }
+        
+        /* 3D Nail Model Container */
+        #nail-model-container {
+            width: 100%;
+            height: 400px;
+            position: relative;
+        }
+        
+        /* Carousel Styles */
+        .carousel {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .carousel-inner {
+            display: flex;
+            transition: transform 0.5s ease;
+        }
+        
+        .carousel-item {
+            min-width: 100%;
+        }
+        
+        .carousel-indicators {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+        }
+        
+        .carousel-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .carousel-indicator.active {
+            background-color: white;
+            transform: scale(1.2);
+        }
+        
+        /* Mobile Menu */
+        .mobile-menu {
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+        }
+        
+        .mobile-menu.open {
+            transform: translateX(0);
+        }
+        
+        /* AI Recommendation Form */
+        .ai-form-container {
+            background: linear-gradient(135deg, #f5f7fa 0%, #F8D7DA 100%);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Loading Animation */
+        .loading {
+            display: inline-block;
+            position: relative;
+            width: 80px;
+            height: 80px;
+        }
+        
+        .loading div {
+            position: absolute;
+            top: 33px;
+            width: 13px;
+            height: 13px;
+            border-radius: 50%;
+            background: #E57373;
+            animation-timing-function: cubic-bezier(0, 1, 1, 0);
+        }
+        
+        .loading div:nth-child(1) {
+            left: 8px;
+            animation: loading1 0.6s infinite;
+        }
+        
+        .loading div:nth-child(2) {
+            left: 8px;
+            animation: loading2 0.6s infinite;
+        }
+        
+        .loading div:nth-child(3) {
+            left: 32px;
+            animation: loading2 0.6s infinite;
+        }
+        
+        .loading div:nth-child(4) {
+            left: 56px;
+            animation: loading3 0.6s infinite;
+        }
+        
+        @keyframes loading1 {
+            0% {
+                transform: scale(0);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+        
+        @keyframes loading3 {
+            0% {
+                transform: scale(1);
+            }
+            100% {
+                transform: scale(0);
+            }
+        }
+        
+        @keyframes loading2 {
+            0% {
+                transform: translate(0, 0);
+            }
+            100% {
+                transform: translate(24px, 0);
+            }
+        }
+        
+        /* Language switcher */
+        .lang-switcher {
+            position: relative;
+            cursor: pointer;
+        }
+        
+        .lang-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background-color: white;
+            border-radius: 4px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 8px 0;
+            min-width: 100px;
+            z-index: 100;
+            display: none;
+        }
+        
+        .lang-switcher:hover .lang-dropdown {
+            display: block;
+        }
+        
+        .lang-option {
+            padding: 8px 16px;
+            transition: background-color 0.2s ease;
+        }
+        
+        .lang-option:hover {
+            background-color: #f3f4f6;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Header/Navigation -->
+    <header class="fixed w-full bg-white shadow-md z-50">
+        <div class="container mx-auto px-4 py-3">
+            <div class="flex justify-between items-center">
+                <!-- Logo -->
+                <div class="flex items-center">
+                    <img src="https://p11-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/fc31d68c0a0e41838791c73b3f6373ce~tplv-a9rns2rl98-image.image?lk3s=8e244e95&amp;rcl=20260315233239989429D071DD01BA2A3B&amp;rrcfp=f06b921b&amp;x-expires=1776180821&amp;x-signature=dOx9c7TXoYeuPoRS9F4KWGhj3oQ%3D" alt="Luxury Nails Logo" class="h-12 w-auto">
+                    <h1 class="ml-3 text-2xl font-bold font-playfair" data-lang="logo">Luxury Nails</h1>
+                </div>
+                
+                <!-- Desktop Navigation -->
+                <nav class="hidden md:flex items-center space-x-8">
+                    <a href="#home" class="nav-link active text-dark hover:text-accent font-medium" data-lang="nav-home">Home</a>
+                    <a href="#services" class="nav-link text-dark hover:text-accent font-medium" data-lang="nav-services">Services</a>
+                    <a href="#gallery" class="nav-link text-dark hover:text-accent font-medium" data-lang="nav-gallery">Gallery</a>
+                    <a href="#about" class="nav-link text-dark hover:text-accent font-medium" data-lang="nav-about">About Us</a>
+                    <a href="#contact" class="nav-link text-dark hover:text-accent font-medium" data-lang="nav-contact">Contact</a>
+                    
+                    <!-- Language Switcher -->
+                    <div class="lang-switcher flex items-center">
+                        <span class="text-dark hover:text-accent"><i class="fas fa-globe mr-2"></i><span id="current-lang">EN</span></span>
+                        <div class="lang-dropdown">
+                            <div class="lang-option" data-value="en">English</div>
+                            <div class="lang-option" data-value="zh">中文</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Book Now Button -->
+                    <a href="#booking" class="btn-primary px-6 py-2 rounded-full font-medium" data-lang="nav-book">Book Now</a>
+                </nav>
+                
+                <!-- Mobile Menu Button -->
+                <button id="mobile-menu-button" class="md:hidden text-dark focus:outline-none">
+                    <i class="fas fa-bars text-2xl"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Mobile Navigation -->
+        <div id="mobile-menu" class="mobile-menu fixed top-0 left-0 h-full w-4/5 bg-white shadow-lg z-50 md:hidden">
+            <div class="p-5">
+                <div class="flex justify-between items-center mb-8">
+                    <div class="flex items-center">
+                        <img src="https://p11-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/fc31d68c0a0e41838791c73b3f6373ce~tplv-a9rns2rl98-image.image?lk3s=8e244e95&amp;rcl=20260315233239989429D071DD01BA2A3B&amp;rrcfp=f06b921b&amp;x-expires=1776180821&amp;x-signature=dOx9c7TXoYeuPoRS9F4KWGhj3oQ%3D" alt="Luxury Nails Logo" class="h-10 w-auto">
+                        <h1 class="ml-2 text-xl font-bold font-playfair" data-lang="logo">Luxury Nails</h1>
+                    </div>
+                    <button id="close-mobile-menu" class="text-dark focus:outline-none">
+                        <i class="fas fa-times text-2xl"></i>
+                    </button>
+                </div>
+                
+                <nav class="flex flex-col space-y-4">
+                    <a href="#home" class="mobile-nav-link py-2 px-4 hover:bg-primary rounded" data-lang="nav-home">Home</a>
+                    <a href="#services" class="mobile-nav-link py-2 px-4 hover:bg-primary rounded" data-lang="nav-services">Services</a>
+                    <a href="#gallery" class="mobile-nav-link py-2 px-4 hover:bg-primary rounded" data-lang="nav-gallery">Gallery</a>
+                    <a href="#about" class="mobile-nav-link py-2 px-4 hover:bg-primary rounded" data-lang="nav-about">About Us</a>
+                    <a href="#contact" class="mobile-nav-link py-2 px-4 hover:bg-primary rounded" data-lang="nav-contact">Contact</a>
+                    
+                    <!-- Language Switcher -->
+                    <div class="py-2 px-4">
+                        <div class="flex items-center">
+                            <i class="fas fa-globe mr-2"></i>
+                            <span data-lang="lang">Language:</span>
+                            <div class="flex ml-2">
+                                <button class="lang-btn px-2 py-1 rounded bg-primary" data-value="en">EN</button>
+                                <button class="lang-btn px-2 py-1 rounded ml-2" data-value="zh">中文</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Book Now Button -->
+                    <a href="#booking" class="btn-primary py-3 px-4 rounded-full font-medium text-center mt-4" data-lang="nav-book">Book Now</a>
+                </nav>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu Overlay -->
+        <div id="mobile-menu-overlay" class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden md:hidden"></div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="pt-24 pb-16 md:pt-32 md:pb-24">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row items-center">
+                <!-- Text Content -->
+                <div class="md:w-1/2 mb-10 md:mb-0">
+                    <h2 class="text-4xl md:text-5xl lg:text-6xl font-bold font-playfair mb-6" data-lang="hero-title">体验奢华美甲护理</h2>
+                    <p class="text-lg md:text-xl mb-8 text-gray-600" data-lang="hero-subtitle">Indulge in our premium nail services designed to make you feel beautiful and confident.</p>
+                    <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+                        <a href="#booking" class="btn-primary px-8 py-3 rounded-full font-medium text-center text-lg" data-lang="hero-book">Book Appointment</a>
+                        <a href="#services" class="btn-secondary px-8 py-3 rounded-full font-medium text-center text-lg" data-lang="hero-services">Our Services</a>
+                    </div>
+                </div>
+                
+                <!-- Image/3D Model -->
+                <div class="md:w-1/2">
+                    <div class="relative">
+                        <div class="absolute -top-10 -left-10 w-40 h-40 bg-primary rounded-full opacity-20"></div>
+                        <div class="absolute -bottom-10 -right-10 w-60 h-60 bg-secondary rounded-full opacity-20"></div>
+                        
+                        <!-- 3D Nail Model Container -->
+                        <div id="nail-model-container" class="relative z-10 rounded-lg overflow-hidden shadow-2xl">
+                            <img src="https://p26-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/07313276b9c14578b1d2516a400b0cec~tplv-a9rns2rl98-image.image?lk3s=8e244e95&amp;rcl=20260315233239989429D071DD01BA2A3B&amp;rrcfp=f06b921b&amp;x-expires=1776180822&amp;x-signature=EjDHX%2BXERSmmw%2F4SOPdejzI0ft0%3D" alt="Luxury Nail Art" class="w-full h-full object-cover">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="py-16 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold font-playfair mb-4" data-lang="services-title">Our Services</h2>
+                <p class="text-lg text-gray-600 max-w-3xl mx-auto" data-lang="services-subtitle">Discover our wide range of premium nail services designed to pamper and beautify your hands and feet.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Service Card 1 -->
+                <div class="card bg-white rounded-xl shadow-lg overflow-hidden">
+                    <div class="relative">
+                        <img src="https://p26-doubao-search-sign.byteimg.com/labis/e0dfd39357e291f8be26bc542e171a55~tplv-be4g95zd3a-image.jpeg?lk3s=feb11e32&amp;x-expires=1789140796&amp;x-signature=JlFu0Iw82l6dYwr5deDGNFYj%2Fl4%3D" alt="Basic Manicure" class="w-full h-64 object-cover">
+                        <div class="absolute top-4 right-4 bg-secondary text-dark px-3 py-1 rounded-full font-medium">
+                            $25+
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold font-playfair mb-2" data-lang="service-1-title">Basic Manicure</h3>
+                        <p class="text-gray-600 mb-4" data-lang="service-1-desc">Our classic manicure includes nail shaping, cuticle care, hand massage, and your choice of nail polish.</p>
+                        <div class="flex items-center text-sm text-gray-500 mb-4">
+                            <i class="fas fa-clock mr-2"></i>
+                            <span data-lang="service-duration">45 minutes</span>
+                        </div>
+                        <a href="#booking" class="btn-primary block text-center py-2 rounded-lg" data-lang="book-now">Book Now</a>
+                    </div>
+                </div>
+                
+                <!-- Service Card 2 -->
+                <div class="card bg-white rounded-xl shadow-lg overflow-hidden">
+                    <div class="relative">
+                        <img src="https://p11-doubao-search-sign.byteimg.com/labis/43574d08c1900bec236a987a678299c7~tplv-be4g95zd3a-image.jpeg?lk3s=feb11e32&amp;x-expires=1789140796&amp;x-signature=IcIiU3rActH2BkfHQAE%2BEu2pRS4%3D" alt="Gel Nails" class="w-full h-64 object-cover">
+                        <div class="absolute top-4 right-4 bg-secondary text-dark px-3 py-1 rounded-full font-medium">
+                            $45+
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold font-playfair mb-2" data-lang="service-2-title">Gel Nails</h3>
+                        <p class="text-gray-600 mb-4" data-lang="service-2-desc">Long-lasting gel polish that provides a high-gloss finish and chip-free wear for up to two weeks.</p>
+                        <div class="flex items-center text-sm text-gray-500 mb-4">
+                            <i class="fas fa-clock mr-2"></i>
+                            <span data-lang="service-duration">60 minutes</span>
+                        </div>
+                        <a href="#booking" class="btn-primary block text-center py-2 rounded-lg" data-lang="book-now">Book Now</a>
+                    </div>
+                </div>
+                
+                <!-- Service Card 3 -->
+                <div class="card bg-white rounded-xl shadow-lg overflow-hidden">
+                    <div class="relative">
+                        <img src="https://p26-doubao-search-sign.byteimg.com/mosaic-legacy/615c0001022299a23413~tplv-be4g95zd3a-image.jpeg?lk3s=feb11e32&amp;x-expires=1789140796&amp;x-signature=6kNZ0O8S%2B2SZOl5RkF095CkBmac%3D" alt="Nail Art" class="w-full h-64 object-cover">
+                        <div class="absolute top-4 right-4 bg-secondary text-dark px-3 py-1 rounded-full font-medium">
+                            $60+
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold font-playfair mb-2" data-lang="service-3-title">Nail Art</h3>
+                        <p class="text-gray-600 mb-4" data-lang="service-3-desc">Custom nail designs created by our talented artists. From simple patterns to intricate 3D designs.</p>
+                        <div class="flex items-center text-sm text-gray-500 mb-4">
+                            <i class="fas fa-clock mr-2"></i>
+                            <span data-lang="service-duration">90 minutes</span>
+                        </div>
+                        <a href="#booking" class="btn-primary block text-center py-2 rounded-lg" data-lang="book-now">Book Now</a>
+                    </div>
+                </div>
+                
+                <!-- Service Card 4 -->
+                <div class="card bg-white rounded-xl shadow-lg overflow-hidden">
+                    <div class="relative">
+                        <img src="https://p26-doubao-search-sign.byteimg.com/mosaic-legacy/593b0004339bea65f7d4~tplv-be4g95zd3a-image.jpeg?lk3s=feb11e32&amp;x-expires=1789140796&amp;x-signature=RE8AbTQ6Xe8tlRh6kssTtToxtmk%3D" alt="Spa Pedicure" class="w-full h-64 object-cover">
+                        <div class="absolute top-4 right-4 bg-secondary text-dark px-3 py-1 rounded-full font-medium">
+                            $35+
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold font-playfair mb-2" data-lang="service-4-title">Spa Pedicure</h3>
+                        <p class="text-gray-600 mb-4" data-lang="service-4-desc">Relaxing foot soak, exfoliation, callus removal, foot massage, and polish application for beautiful feet.</p>
+                        <div class="flex items-center text-sm text-gray-500 mb-4">
+                            <i class="fas fa-clock mr-2"></i>
+                            <span data-lang="service-duration">60 minutes</span>
+                        </div>
+                        <a href="#booking" class="btn-primary block text-center py-2 rounded-lg" data-lang="book-now">Book Now</a>
+                    </div>
+                </div>
+                
+                <!-- Service Card 5 -->
+                <div class="card bg-white rounded-xl shadow-lg overflow-hidden">
+                    <div class="relative">
+                        <img src="https://p3-doubao-search-sign.byteimg.com/tos-cn-i-be4g95zd3a/2249840810483908613~tplv-be4g95zd3a-image.jpeg?lk3s=feb11e32&amp;x-expires=1789140796&amp;x-signature=%2FNkcVLZj8wJIJyJHaONY4FK%2Fl90%3D" alt="Acrylic Nails" class="w-full h-64 object-cover">
+                        <div class="absolute top-4 right-4 bg-secondary text-dark px-3 py-1 rounded-full font-medium">
+                            $55+
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold font-playfair mb-2" data-lang="service-5-title">Acrylic Nails</h3>
+                        <p class="text-gray-600 mb-4" data-lang="service-5-desc">Durable acrylic extensions that add length and strength to your natural nails, available in various shapes.</p>
+                        <div class="flex items-center text-sm text-gray-500 mb-4">
+                            <i class="fas fa-clock mr-2"></i>
+                            <span data-lang="service-duration">90 minutes</span>
+                        </div>
+                        <a href="#booking" class="btn-primary block text-center py-2 rounded-lg" data-lang="book-now">Book Now</a>
+                    </div>
+                </div>
+                
+                <!-- Service Card 6 -->
+                <div class="card bg-white rounded-xl shadow-lg overflow-hidden">
+                    <div class="relative">
+                        <img src="https://p11-doubao-search-sign.byteimg.com/tos-cn-i-be4g95zd3a/993010079815041086~tplv-be4g95zd3a-image.jpeg?lk3s=feb11e32&amp;x-expires=1789140796&amp;x-signature=Qltz2lkU4dEB16nEY%2FXZym%2FLLFw%3D" alt="Nail Repair" class="w-full h-64 object-cover">
+                        <div class="absolute top-4 right-4 bg-secondary text-dark px-3 py-1 rounded-full font-medium">
+                            $20+
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold font-playfair mb-2" data-lang="service-6-title">Nail Repair</h3>
+                        <p class="text-gray-600 mb-4" data-lang="service-6-desc">Professional repair of broken or damaged nails using specialized techniques and products.</p>
+                        <div class="flex items-center text-sm text-gray-500 mb-4">
+                            <i class="fas fa-clock mr-2"></i>
+                            <span data-lang="service-duration">30 minutes</span>
+                        </div>
+                        <a href="#booking" class="btn-primary block text-center py-2 rounded-lg" data-lang="book-now">Book Now</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-12">
+                <a href="#booking" class="btn-secondary px-8 py-3 rounded-full font-medium inline-block" data-lang="view-all-services">View All Services</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section id="gallery" class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold font-playfair mb-4" data-lang="gallery-title">Our Work</h2>
+                <p class="text-lg text-gray-600 max-w-3xl mx-auto" data-lang="gallery-subtitle">Browse our gallery of beautiful nail designs created by our talented team of nail artists.</p>
+            </div>
+            
+            <!-- Gallery Filter -->
+            <div class="flex flex-wrap justify-center mb-10">
+                <button class="gallery-filter-btn active m-2 px-4 py-2 rounded-full bg-primary text-dark font-medium" data-filter="all">All</button>
+                <button class="gallery-filter-btn m-2 px-4 py-2 rounded-full bg-gray-200 text-dark font-medium" data-filter="manicure">Manicure</button>
+                <button class="gallery-filter-btn m-2 px-4 py-2 rounded-full bg-gray-200 text-dark font-medium" data-filter="pedicure">Pedicure</button>
+                <button class="gallery-filter-btn m-2 px-4 py-2 rounded-full bg-gray-200 text-dark font-medium" data-filter="gel">Gel</button>
+                <button class="gallery-filter-btn m-2 px-4 py-2 rounded-full bg-gray-200 text-dark font-medium" data-filter="acrylic">Acrylic</button>
+                <button class="gallery-filter-btn m-2 px-4 py-2 rounded-full bg-gray-200 text-dark font-medium" data-filter="art">Nail Art</button>
+            </div>
+            
+            <!-- Gallery Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Gallery Item 1 -->
+                <div class="gallery-item manicure gel" data-category="manicure gel">
+                    <div class="relative overflow-hidden rounded-lg shadow-lg group">
+                        <img src="https://p26-doubao-search-sign.byteimg.com/labis/e0dfd39357e291f8be26bc542e171a55~tplv-be4g95zd3a-image.jpeg?lk3s=feb11e32&amp;x-expires=1789140796&amp;x-signature=JlFu0Iw82l6dYwr5deDGNFYj%2Fl4%3D" alt="Nail Design" class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
+                            <div class="p-4 text-white">
+                                <h3 class="font-bold" data-lang="gallery-item-1">Gel Manicure with Glitter</h3>
+                                <p class="text-sm" data-lang="gallery-desc-1">Elegant black and pink design with gold accents</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Gallery Item 2 -->
+                <div class="gallery-item manicure art" data-category="manicure art">
+                    <div class="relative overflow-hidden rounded-lg shadow-lg group">
+                        <img src="https://p11-doubao-search-sign.byteimg.com/labis/43574d08c1900bec236a987a678299c7~tplv-be4g95zd3a-image.jpeg?lk3s=feb11e32&amp;x-expires=1789140796&amp;x-signature=IcIiU3rActH2BkfHQAE%2BEu2pRS4%3D" alt="Nail Design" class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
+                            <div class="p-4 text-white">
+                                <h3 class="font-bold" data-lang="gallery-item-2">Autumn Inspired Nails</h3>
+                                <p class="text-sm" data-lang="gallery-desc-2">Warm brown tones with minimalist design</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Gallery Item 3 -->
+                <div class="gallery-item manicure gel" data-category="manicure gel">
+                    <div class="relative overflow-hidden rounded-lg shadow-lg group">
+                        <img src="https://p26-doubao-search-sign.byteimg.com/mosaic-legacy/593b0004339bea65f7d4~tplv-be4g95zd3a-image.jpeg?lk3s=feb11e32&amp;x-expires=1789140796&amp;x-signature=RE8AbTQ6Xe8tlRh6kssTtToxtmk%3D" alt="Nail Design" class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
+                            <div class="p-4 text-white">
+                                <h3 class="font-bold" data-lang="gallery-item-3">Natural Gel Nails</h3>
+                                <p class="text-sm" data-lang="gallery-desc-3">Subtle pink gel with delicate gold accent</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Gallery Item 4 -->
+                <div class="gallery-item manicure art" data-category="manicure art">
+                    <div class="relative overflow-hidden rounded-lg shadow-lg group">
+                        <img src="https://p26-doubao-search-sign.byteimg.com/mosaic-legacy/615c0001022299a23413~tplv-be4g95zd3a-image.jpeg?lk3s=feb11e32&amp;x-expires=1789140796&amp;x-signature=6kNZ0O8S%2B2SZOl5RkF095CkBmac%3D" alt="Nail Design" class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
+                            <div class="p-4 text-white">
+                                <h3 class="font-bold" data-lang="gallery-item-4">Holiday Sparkle</h3>
+                                <p class="text-sm" data-lang="gallery-desc-4">Deep red nails with glitter accents</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Gallery Item 5 -->
+                <div class="gallery-item manicure acrylic" data-category="manicure acrylic">
+                    <div class="relative overflow-hidden rounded-lg shadow-lg group">
+                        <img src="https://p26-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/07313276b9c14578b1d2516a400b0cec~tplv-a9rns2rl98-image.image?lk3s=8e244e95&amp;rcl=20260315233239989429D071DD01BA2A3B&amp;rrcfp=f06b921b&amp;x-expires=1776180822&amp;x-signature=EjDHX%2BXERSmmw%2F4SOPdejzI0ft0%3D" alt="Nail Design" class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
+                            <div class="p-4 text-white">
+                                <h3 class="font-bold" data-lang="gallery-item-5">Luxury 3D Design</h3>
+                                <p class="text-sm" data-lang="gallery-desc-5">Intricate gold patterns on pink acrylic</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Gallery Item 6 -->
+                <div class="gallery-item manicure gel" data-category="manicure gel">
+                    <div class="relative overflow-hidden rounded-lg shadow-lg group">
+                        <img src="https://p11-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/fc31d68c0a0e41838791c73b3f6373ce~tplv-a9rns2rl98-image.image?lk3s=8e244e95&amp;rcl=20260315233239989429D071DD01BA2A3B&amp;rrcfp=f06b921b&amp;x-expires=1776180821&amp;x-signature=dOx9c7TXoYeuPoRS9F4KWGhj3oQ%3D" alt="Nail Design" class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
+                            <div class="p-4 text-white">
+                                <h3 class="font-bold" data-lang="gallery-item-6">Minimalist Line Art</h3>
+                                <p class="text-sm" data-lang="gallery-desc-6">Simple gold lines on soft pink base</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-12">
+                <a href="#ai-recommendation" class="btn-primary px-8 py-3 rounded-full font-medium inline-block" data-lang="ai-recommendation-btn">Try AI Nail Style Recommendation</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Us Section -->
+    <section id="about" class="py-16 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col lg:flex-row items-center">
+                <!-- About Image -->
+                <div class="lg:w-1/2 mb-10 lg:mb-0 lg:pr-10">
+                    <div class="relative">
+                        <div class="absolute -top-5 -left-5 w-20 h-20 bg-primary rounded-full opacity-30"></div>
+                        <div class="absolute -bottom-5 -right-5 w-40 h-40 bg-secondary rounded-full opacity-30"></div>
+                        <img src="https://p26-doubao-search-sign.byteimg.com/labis/cfcfa93d5f826521c98237615b963b3f~tplv-be4g95zd3a-image.jpeg?lk3s=feb11e32&amp;x-expires=1789140796&amp;x-signature=6Ri19Wj3KxhVO8fuLq1W3S3BSQ8%3D" alt="Luxury Nails Salon" class="w-full h-auto rounded-lg shadow-xl relative z-10">
+                    </div>
+                </div>
+                
+                <!-- About Content -->
+                <div class="lg:w-1/2">
+                    <h2 class="text-3xl md:text-4xl font-bold font-playfair mb-6" data-lang="about-title">About Luxury Nails</h2>
+                    <p class="text-lg text-gray-600 mb-6" data-lang="about-text-1">Luxury Nails is a premium nail salon located in the heart of the city, dedicated to providing exceptional nail care services in a luxurious and relaxing environment.</p>
+                    <p class="text-lg text-gray-600 mb-6" data-lang="about-text-2">Our team of highly skilled and experienced nail technicians are committed to delivering the highest quality services using only the finest products in the industry.</p>
+                    <p class="text-lg text-gray-600 mb-8" data-lang="about-text-3">We believe that every client deserves to be pampered and treated with the utmost care and attention to detail. Our goal is to exceed your expectations and leave you feeling beautiful and confident.</p>
+                    
+                    <!-- Features/Highlights -->
+                    <div class="grid grid-cols-2 gap-6">
+                        <div class="flex items-start">
+                            <div class="bg-primary p-3 rounded-full mr-4">
+                                <i class="fas fa-check text-dark"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold mb-1" data-lang="about-feature-1">Quality Products</h4>
+                                <p class="text-gray-600" data-lang="about-feature-1-desc">We use only premium nail products</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start">
+                            <div class="bg-primary p-3 rounded-full mr-4">
+                                <i class="fas fa-check text-dark"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold mb-1" data-lang="about-feature-2">Experienced Staff</h4>
+                                <p class="text-gray-600" data-lang="about-feature-2-desc">Skilled and certified technicians</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start">
+                            <div class="bg-primary p-3 rounded-full mr-4">
+                                <i class="fas fa-check text-dark"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold mb-1" data-lang="about-feature-3">Clean Environment</h4>
+                                <p class="text-gray-600" data-lang="about-feature-3-desc">Sanitary and hygienic practices</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start">
+                            <div class="bg-primary p-3 rounded-full mr-4">
+                                <i class="fas fa-check text-dark"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold mb-1" data-lang="about-feature-4">Relaxing Atmosphere</h4>
+                                <p class="text-gray-600" data-lang="about-feature-4-desc">Comfortable and peaceful setting</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Team Section -->
+            <div class="mt-20">
+                <h3 class="text-2xl md:text-3xl font-bold font-playfair text-center mb-10" data-lang="our-team">Our Team</h3>
+                
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <!-- Team Member 1 -->
+                    <div class="bg-white rounded-xl shadow-lg overflow-hidden text-center">
+                        <img src="https://p3-doubao-search-sign.byteimg.com/tos-cn-i-be4g95zd3a/963884618083205129~tplv-be4g95zd3a-image.jpeg?lk3s=feb11e32&amp;x-expires=1789140796&amp;x-signature=4hOreAhWRZggMwtMlehOlmOgQZA%3D" alt="Sarah Johnson" class="w-full h-64 object-cover">
+                        <div class="p-6">
+                            <h4 class="text-xl font-bold font-playfair mb-1" data-lang="team-member-1">Sarah Johnson</h4>
+                            <p class="text-accent mb-3" data-lang="team-title-1">Master Nail Technician</p>
+                            <p class="text-gray-600 mb-4" data-lang="team-desc-1">10+ years of experience in nail art and design</p>
+                            <div class="flex justify-center space-x-3">
+                                <a href="#" class="text-gray-400 hover:text-accent">
+                                    <i class="fab fa-facebook-f"></i>
+                                </a>
+                                <a href="#" class="text-gray-400 hover:text-accent">
+                                    <i class="fab fa-instagram"></i>
+                                </a>
+                                <a href="#" class="text-gray-400 hover:text-accent">
+                                    <i class="fab fa-twitter"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Team Member 2 -->
+                    <div class="bg-white rounded-xl shadow-lg overflow-hidden text-center">
+                        <img src="https://p26-doubao-search-sign.byteimg.com/tos-cn-i-be4g95zd3a/963884575150309439~tplv-be4g95zd3a-image.jpeg?lk3s=feb11e32&amp;x-expires=1789140796&amp;x-signature=L9ex%2F%2FWQwHZH61yq46Ab%2BUue8Ls%3D" alt="Lisa Chen" class="w-full h-64 object-cover">
+                        <div class="p-6">
+                            <h4 class="text-xl font-bold font-playfair mb-1" data-lang="team-member-2">Lisa Chen</h4>
+                            <p class="text-accent mb-3" data-lang="team-title-2">Gel Specialist</p>
+                            <p class="text-gray-600 mb-4" data-lang="team-desc-2">Expert in gel nail application and design</p>
+                            <div class="flex justify-center space-x-3">
+                                <a href="#" class="text-gray-400 hover:text-accent">
+                                    <i class="fab fa-facebook-f"></i>
+                                </a>
+                                <a href="#" class="text-gray-400 hover:text-accent">
+                                    <i class="fab fa-instagram"></i>
+                                </a>
+                                <a href="#" class="text-gray-400 hover:text-accent">
+                                    <i class="fab fa-twitter"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Team Member 3 -->
+                    <div class="bg-white rounded-xl shadow-lg overflow-hidden text-center">
+                        <img src="https://p11-doubao-search-sign.byteimg.com/tos-cn-i-be4g95zd3a/993010079815041086~tplv-be4g95zd3a-image.jpeg?lk3s=feb11e32&amp;x-expires=1789140796&amp;x-signature=Qltz2lkU4dEB16nEY%2FXZym%2FLLFw%3D" alt="Maria Rodriguez" class="w-full h-64 object-cover">
+                        <div class="p-6">
+                            <h4 class="text-xl font-bold font-playfair mb-1" data-lang="team-member-3">Maria Rodriguez</h4>
+                            <p class="text-accent mb-3" data-lang="team-title-3">Nail Artist</p>
+                            <p class="text-gray-600 mb-4" data-lang="team-desc-3">Specializes in creative nail art designs</p>
+                            <div class="flex justify-center space-x-3">
+                                <a href="#" class="text-gray-400 hover:text-accent">
+                                    <i class="fab fa-facebook-f"></i>
+                                </a>
+                                <a href="#" class="text-gray-400 hover:text-accent">
+                                    <i class="fab fa-instagram"></i>
+                                </a>
+                                <a href="#" class="text-gray-400 hover:text-accent">
+                                    <i class="fab fa-twitter"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Team Member 4 -->
+                    <div class="bg-white rounded-xl shadow-lg overflow-hidden text-center">
+                        <img src="https://p3-doubao-search-sign.byteimg.com/tos-cn-i-be4g95zd3a/2249840810483908613~tplv-be4g95zd3a-image.jpeg?lk3s=feb11e32&amp;x-expires=1789140796&amp;x-signature=%2FNkcVLZj8wJIJyJHaONY4FK%2Fl90%3D" alt="Jennifer Kim" class="w-full h-64 object-cover">
+                        <div class="p-6">
+                            <h4 class="text-xl font-bold font-playfair mb-1" data-lang="team-member-4">Jennifer Kim</h4>
+                            <p class="text-accent mb-3" data-lang="team-title-4">Spa Pedicure Expert</p>
+                            <p class="text-gray-600 mb-4" data-lang="team-desc-4">Specializes in luxurious foot treatments</p>
+                            <div class="flex justify-center space-x-3">
+                                <a href="#" class="text-gray-400 hover:text-accent">
+                                    <i class="fab fa-facebook-f"></i>
+                                </a>
+                                <a href="#" class="text-gray-400 hover:text-accent">
+                                    <i class="fab fa-instagram"></i>
+                                </a>
+                                <a href="#" class="text-gray-400 hover:text-accent">
+                                    <i class="fab fa-twitter"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- AI Recommendation Section -->
+    <section id="ai-recommendation" class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold font-playfair mb-4" data-lang="ai-title">AI Nail Style Recommendation</h2>
+                <p class="text-lg text-gray-600 max-w-3xl mx-auto" data-lang="ai-subtitle">Get personalized nail style recommendations based on your preferences and hand shape. Our AI will analyze your photo and suggest the perfect nail designs for you.</p>
+            </div>
+            
+            <div class="flex flex-col lg:flex-row items-center">
+                <!-- AI Form -->
+                <div class="lg:w-1/2 mb-10 lg:mb-0 lg:pr-10">
+                    <div class="ai-form-container p-8">
+                        <h3 class="text-2xl font-bold font-playfair mb-6" data-lang="ai-form-title">Get Your Personalized Recommendations</h3>
+                        
+                        <form id="ai-recommendation-form" class="space-y-6">
+                            <!-- Photo Upload -->
+                            <div>
+                                <label for="hand-photo" class="block text-gray-700 font-medium mb-2" data-lang="ai-upload-photo">Upload a photo of your hand</label>
+                                <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center cursor-pointer hover:border-accent transition-colors">
+                                    <input type="file" id="hand-photo" class="hidden" accept="image/*">
+                                    <i class="fas fa-cloud-upload-alt text-4xl text-gray-400 mb-2"></i>
+                                    <p class="text-gray-500" data-lang="ai-upload-text">Click to upload or drag and drop</p>
+                                    <p class="text-xs text-gray-400 mt-1" data-lang="ai-upload-note">Supported formats: JPG, PNG</p>
+                                </div>
+                            </div>
+                            
+                            <!-- Nail Length Preference -->
+                            <div>
+                                <label class="block text-gray-700 font-medium mb-2" data-lang="ai-nail-length">Nail Length Preference</label>
+                                <div class="flex space-x-4">
+                                    <label class="flex items-center">
+                                        <input type="radio" name="nail-length" value="short" class="mr-2" checked="">
+                                        <span data-lang="ai-short">Short</span>
+                                    </label>
+                                    <label class="flex items-center">
+                                        <input type="radio" name="nail-length" value="medium" class="mr-2">
+                                        <span data-lang="ai-medium">Medium</span>
+                                    </label>
+                                    <label class="flex items-center">
+                                        <input type="radio" name="nail-length" value="long" class="mr-2">
+                                        <span data-lang="ai-long">Long</span>
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <!-- Nail Shape Preference -->
+                            <div>
+                                <label class="block text-gray-700 font-medium mb-2" data-lang="ai-nail-shape">Nail Shape Preference</label>
+                                <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
+                                    <label class="flex flex-col items-center p-3 border rounded-lg cursor-pointer hover:bg-primary/30">
+                                        <input type="radio" name="nail-shape" value="square" class="hidden" checked="">
+                                        <div class="w-12 h-12 bg-primary/20 rounded-sm flex items-center justify-center mb-2">
+                                            <i class="fas fa-square text-accent"></i>
+                                        </div>
+                                        <span data-lang="ai-square">Square</span>
+                                    </label>
+                                    <label class="flex flex-col items-center p-3 border rounded-lg cursor-pointer hover:bg-primary/30">
+                                        <input type="radio" name="nail-shape" value="round" class="hidden">
+                                        <div class="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center mb-2">
+                                            <i class="fas fa-circle text-accent"></i>
+                                        </div>
+                                        <span data-lang="ai-round">Round</span>
+                                    </label>
+                                    <label class="flex flex-col items-center p-3 border rounded-lg cursor-pointer hover:bg-primary/30">
+                                        <input type="radio" name="nail-shape" value="almond" class="hidden">
+                                        <div class="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center mb-2">
+                                            <i class="fas fa-ellipsis-h text-accent"></i>
+                                        </div>
+                                        <span data-lang="ai-almond">Almond</span>
+                                    </label>
+                                    <label class="flex flex-col items-center p-3 border rounded-lg cursor-pointer hover:bg-primary/30">
+                                        <input type="radio" name="nail-shape" value="stiletto" class="hidden">
+                                        <div class="w-12 h-12 bg-primary/20 rounded-sm flex items-center justify-center mb-2">
+                                            <i class="fas fa-exclamation-triangle text-accent"></i>
+                                        </div>
+                                        <span data-lang="ai-stiletto">Stiletto</span>
+                                    </label>
+                                    <label class="flex flex-col items-center p-3 border rounded-lg cursor-pointer hover:bg-primary/30">
+                                        <input type="radio" name="nail-shape" value="coffin" class="hidden">
+                                        <div class="w-12 h-12 bg-primary/20 rounded-sm flex items-center justify-center mb-2">
+                                            <i class="fas fa-cube text-accent"></i>
+                                        </div>
+                                        <span data-lang="ai-coffin">Coffin</span>
+                                    </label>
+                                    <label class="flex flex-col items-center p-3 border rounded-lg cursor-pointer hover:bg-primary/30">
+                                        <input type="radio" name="nail-shape" value="natural" class="hidden">
+                                        <div class="w-12 h-12 bg-primary/20 rounded-sm flex items-center justify-center mb-2">
+                                            <i class="fas fa-hand-paper text-accent"></i>
+                                        </div>
+                                        <span data-lang="ai-natural">Natural</span>
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <!-- Color Preference -->
+                            <div>
+                                <label class="block text-gray-700 font-medium mb-2" data-lang="ai-color-pref">Color Preference</label>
+                                <div class="flex flex-wrap gap-3">
+                                    <label class="w-10 h-10 rounded-full bg-red-500 cursor-pointer border-2 border-transparent hover:border-dark">
+                                        <input type="radio" name="color-pref" value="red" class="hidden">
+                                    </label>
+                                    <label class="w-10 h-10 rounded-full bg-pink-400 cursor-pointer border-2 border-transparent hover:border-dark">
+                                        <input type="radio" name="color-pref" value="pink" class="hidden" checked="">
+                                    </label>
+                                    <label class="w-10 h-10 rounded-full bg-purple-500 cursor-pointer border-2 border-transparent hover:border-dark">
+                                        <input type="radio" name="color-pref" value="purple" class="hidden">
+                                    </label>
+                                    <label class="w-10 h-10 rounded-full bg-blue-500 cursor-pointer border-2 border-transparent hover:border-dark">
+                                        <input type="radio" name="color-pref" value="blue" class="hidden">
+                                    </label>
+                                    <label class="w-10 h-10 rounded-full bg-green-500 cursor-pointer border-2 border-transparent hover:border-dark">
+                                        <input type="radio" name="color-pref" value="green" class="hidden">
+                                    </label>
+                                    <label class="w-10 h-10 rounded-full bg-yellow-400 cursor-pointer border-2 border-transparent hover:border-dark">
+                                        <input type="radio" name="color-pref" value="yellow" class="hidden">
+                                    </label>
+                                    <label class="w-10 h-10 rounded-full bg-orange-500 cursor-pointer border-2 border-transparent hover:border-dark">
+                                        <input type="radio" name="color-pref" value="orange" class="hidden">
+                                    </label>
+                                    <label class="w-10 h-10 rounded-full bg-gray-800 cursor-pointer border-2 border-transparent hover:border-dark">
+                                        <input type="radio" name="color-pref" value="black" class="hidden">
+                                    </label>
+                                    <label class="w-10 h-10 rounded-full bg-gray-200 cursor-pointer border-2 border-transparent hover:border-dark">
+                                        <input type="radio" name="color-pref" value="white" class="hidden">
+                                    </label>
+                                    <label class="w-10 h-10 rounded-full bg-gray-400 cursor-pointer border-2 border-transparent hover:border-dark">
+                                        <input type="radio" name="color-pref" value="gray" class="hidden">
+                                    </label>
+                                    <label class="w-10 h-10 rounded-full bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 cursor-pointer border-2 border-transparent hover:border-dark">
+                                        <input type="radio" name="color-pref" value="rainbow" class="hidden">
+                                    </label>
+                                    <label class="w-10 h-10 rounded-full bg-gradient-to-r from-gold-400 to-yellow-300 cursor-pointer border-2 border-transparent hover:border-dark">
+                                        <input type="radio" name="color-pref" value="glitter" class="hidden">
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <!-- Occasion -->
+                            <div>
+                                <label for="occasion" class="block text-gray-700 font-medium mb-2" data-lang="ai-occasion">Occasion</label>
+                                <select id="occasion" class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary">
+                                    <option value="everyday" data-lang="ai-everyday">Everyday</option>
+                                    <option value="work" data-lang="ai-work">Work</option>
+                                    <option value="party" data-lang="ai-party">Party</option>
+                                    <option value="wedding" data-lang="ai-wedding">Wedding</option>
+                                    <option value="vacation" data-lang="ai-vacation">Vacation</option>
+                                    <option value="special" data-lang="ai-special">Special Occasion</option>
+                                </select>
+                            </div>
+                            
+                            <button type="button" id="generate-recommendations" class="btn-primary w-full py-3 rounded-lg font-medium text-lg" data-lang="ai-generate">Generate Recommendations</button>
+                        </form>
+                    </div>
+                </div>
+                
+                <!-- AI Results -->
+                <div class="lg:w-1/2">
+                    <div id="ai-results-container" class="hidden">
+                        <!-- Loading State -->
+                        <div id="ai-loading" class="text-center py-10">
+                            <div class="loading mx-auto">
+                                <div></div>
+                                <div></div>
+                                <div></div>
+                                <div></div>
+                            </div>
+                            <p class="mt-4 text-gray-600" data-lang="ai-analyzing">Analyzing your preferences...</p>
+                        </div>
+                        
+                        <!-- Results State -->
+                        <div id="ai-results" class="hidden">
+                            <h3 class="text-2xl font-bold font-playfair mb-6" data-lang="ai-results-title">Your Personalized Recommendations</h3>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <!-- Recommendation 1 -->
+                                <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                                    <img src="https://p26-doubao-search-sign.byteimg.com/labis/e0dfd39357e291f8be26bc542e171a55~tplv-be4g95zd3a-image.jpeg?lk3s=feb11e32&amp;x-expires=1789140796&amp;x-signature=JlFu0Iw82l6dYwr5deDGNFYj%2Fl4%3D" alt="Recommended Nail Design" class="w-full h-48 object-cover">
+                                    <div class="p-4">
+                                        <h4 class="font-bold mb-2" data-lang="ai-rec-1-title">Elegant Evening</h4>
+                                        <p class="text-gray-600 text-sm mb-3" data-lang="ai-rec-1-desc">Perfect for special occasions with its sophisticated black and pink design</p>
+                                        <div class="flex justify-between items-center">
+                                            <span class="text-sm text-accent" data-lang="ai-rec-compatibility">98% Match</span>
+                                            <button class="text-sm font-medium text-primary hover:text-accent" data-lang="ai-rec-book">Book This Style</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Recommendation 2 -->
+                                <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                                    <img src="https://p11-doubao-search-sign.byteimg.com/labis/43574d08c1900bec236a987a678299c7~tplv-be4g95zd3a-image.jpeg?lk3s=feb11e32&amp;x-expires=1789140796&amp;x-signature=IcIiU3rActH2BkfHQAE%2BEu2pRS4%3D" alt="Recommended Nail Design" class="w-full h-48 object-cover">
+                                    <div class="p-4">
+                                        <h4 class="font-bold mb-2" data-lang="ai-rec-2-title">Autumn Glow</h4>
+                                        <p class="text-gray-600 text-sm mb-3" data-lang="ai-rec-2-desc">Warm tones that complement your skin tone and are perfect for everyday wear</p>
+                                        <div class="flex justify-between items-center">
+                                            <span class="text-sm text-accent" data-lang="ai-rec-compatibility">95% Match</span>
+                                            <button class="text-sm font-medium text-primary hover:text-accent" data-lang="ai-rec-book">Book This Style</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Recommendation 3 -->
+                                <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                                    <img src="https://p26-doubao-search-sign.byteimg.com/mosaic-legacy/593b0004339bea65f7d4~tplv-be4g95zd3a-image.jpeg?lk3s=feb11e32&amp;x-expires=1789140796&amp;x-signature=RE8AbTQ6Xe8tlRh6kssTtToxtmk%3D" alt="Recommended Nail Design" class="w-full h-48 object-cover">
+                                    <div class="p-4">
+                                        <h4 class="font-bold mb-2" data-lang="ai-rec-3-title">Natural Elegance</h4>
+                                        <p class="text-gray-600 text-sm mb-3" data-lang="ai-rec-3-desc">Subtle pink shade with delicate gold accents for a professional yet stylish look</p>
+                                        <div class="flex justify-between items-center">
+                                            <span class="text-sm text-accent" data-lang="ai-rec-compatibility">92% Match</span>
+                                            <button class="text-sm font-medium text-primary hover:text-accent" data-lang="ai-rec-book">Book This Style</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Recommendation 4 -->
+                                <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                                    <img src="https://p26-doubao-search-sign.byteimg.com/mosaic-legacy/615c0001022299a23413~tplv-be4g95zd3a-image.jpeg?lk3s=feb11e32&amp;x-expires=1789140796&amp;x-signature=6kNZ0O8S%2B2SZOl5RkF095CkBmac%3D" alt="Recommended Nail Design" class="w-full h-48 object-cover">
+                                    <div class="p-4">
+                                        <h4 class="font-bold mb-2" data-lang="ai-rec-4-title">Bold &amp; Beautiful</h4>
+                                        <p class="text-gray-600 text-sm mb-3" data-lang="ai-rec-4-desc">Striking red nails with glitter accents that make a statement</p>
+                                        <div class="flex justify-between items-center">
+                                            <span class="text-sm text-accent" data-lang="ai-rec-compatibility">90% Match</span>
+                                            <button class="text-sm font-medium text-primary hover:text-accent" data-lang="ai-rec-book">Book This Style</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="mt-8 text-center">
+                                <a href="#booking" class="btn-primary px-8 py-3 rounded-full font-medium inline-block" data-lang="ai-book-appointment">Book an Appointment</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Initial State -->
+                    <div id="ai-initial-state">
+                        <img src="https://p26-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/b962e4b5ecb749968c6d853adf18b90d~tplv-a9rns2rl98-image.image?lk3s=8e244e95&amp;rcl=20260315233239989429D071DD01BA2A3B&amp;rrcfp=f06b921b&amp;x-expires=1776180831&amp;x-signature=1eYRv%2Fg1VKZYCgnzzCtVUfXBaqI%3D" alt="AI Nail Style Recommendation" class="w-full rounded-lg shadow-xl mb-6">
+                        
+                        <h3 class="text-2xl font-bold font-playfair mb-4" data-lang="ai-benefits-title">Why Use Our AI Recommendation?</h3>
+                        
+                        <div class="space-y-4">
+                            <div class="flex items-start">
+                                <div class="bg-primary p-2 rounded-full mr-4 mt-1">
+                                    <i class="fas fa-check text-dark"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold mb-1" data-lang="ai-benefit-1">Personalized to You</h4>
+                                    <p class="text-gray-600" data-lang="ai-benefit-1-desc">Our AI analyzes your hand shape, skin tone, and preferences to suggest styles that flatter you</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start">
+                                <div class="bg-primary p-2 rounded-full mr-4 mt-1">
+                                    <i class="fas fa-check text-dark"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold mb-1" data-lang="ai-benefit-2">Stay on Trend</h4>
+                                    <p class="text-gray-600" data-lang="ai-benefit-2-desc">Get recommendations based on the latest nail trends that suit your personal style</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start">
+                                <div class="bg-primary p-2 rounded-full mr-4 mt-1">
+                                    <i class="fas fa-check text-dark"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold mb-1" data-lang="ai-benefit-3">Save Time</h4>
+                                    <p class="text-gray-600" data-lang="ai-benefit-3-desc">Skip the endless scrolling through nail inspiration - get personalized suggestions instantly</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start">
+                                <div class="bg-primary p-2 rounded-full mr-4 mt-1">
+                                    <i class="fas fa-check text-dark"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold mb-1" data-lang="ai-benefit-4">Perfect for Every Occasion</h4>
+                                    <p class="text-gray-600" data-lang="ai-benefit-4-desc">Whether it's for work, a special event, or everyday wear, we've got you covered</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Booking Section -->
+    <section id="booking" class="py-16 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold font-playfair mb-4" data-lang="booking-title">Book Your Appointment</h2>
+                <p class="text-lg text-gray-600 max-w-3xl mx-auto" data-lang="booking-subtitle">Reserve your spot today and treat yourself to a luxurious nail experience.</p>
+            </div>
+            
+            <div class="flex flex-col lg:flex-row">
+                <!-- Booking Form -->
+                <div class="lg:w-2/3 lg:pr-10 mb-10 lg:mb-0">
+                    <div class="bg-white rounded-xl shadow-lg p-8">
+                        <form id="booking-form" class="space-y-6">
+                            <!-- Service Selection -->
+                            <div>
+                                <label for="service" class="block text-gray-700 font-medium mb-2" data-lang="booking-service">Select Service</label>
+                                <select id="service" class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary">
+                                    <option value="" disabled="" selected="" data-lang="booking-select-service">Please select a service</option>
+                                    <option value="basic-manicure" data-lang="service-1-title">Basic Manicure ($25+)</option>
+                                    <option value="gel-nails" data-lang="service-2-title">Gel Nails ($45+)</option>
+                                    <option value="nail-art" data-lang="service-3-title">Nail Art ($60+)</option>
+                                    <option value="spa-pedicure" data-lang="service-4-title">Spa Pedicure ($35+)</option>
+                                    <option value="acrylic-nails" data-lang="service-5-title">Acrylic Nails ($55+)</option>
+                                    <option value="nail-repair" data-lang="service-6-title">Nail Repair ($20+)</option>
+                                </select>
+                            </div>
+                            
+                            <!-- Technician Selection -->
+                            <div>
+                                <label for="technician" class="block text-gray-700 font-medium mb-2" data-lang="booking-technician">Select Technician</label>
+                                <select id="technician" class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary">
+                                    <option value="" disabled="" selected="" data-lang="booking-select-technician">Please select a technician</option>
+                                    <option value="sarah" data-lang="team-member-1">Sarah Johnson - Master Nail Technician</option>
+                                    <option value="lisa" data-lang="team-member-2">Lisa Chen - Gel Specialist</option>
+                                    <option value="maria" data-lang="team-member-3">Maria Rodriguez - Nail Artist</option>
+                                    <option value="jennifer" data-lang="team-member-4">Jennifer Kim - Spa Pedicure Expert</option>
+                                    <option value="any" data-lang="booking-any-available">Any Available Technician</option>
+                                </select>
+                            </div>
+                            
+                            <!-- Date Selection -->
+                            <div>
+                                <label for="date" class="block text-gray-700 font-medium mb-2" data-lang="booking-date">Select Date</label>
+                                <input type="date" id="date" class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary" min="">
+                            </div>
+                            
+                            <!-- Time Selection -->
+                            <div>
+                                <label for="time" class="block text-gray-700 font-medium mb-2" data-lang="booking-time">Select Time</label>
+                                <select id="time" class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary">
+                                    <option value="" disabled="" selected="" data-lang="booking-select-time">Please select a time</option>
+                                    <option value="9:00">9:00 AM</option>
+                                    <option value="10:00">10:00 AM</option>
+                                    <option value="11:00">11:00 AM</option>
+                                    <option value="12:00">12:00 PM</option>
+                                    <option value="1:00">1:00 PM</option>
+                                    <option value="2:00">2:00 PM</option>
+                                    <option value="3:00">3:00 PM</option>
+                                    <option value="4:00">4:00 PM</option>
+                                    <option value="5:00">5:00 PM</option>
+                                </select>
+                            </div>
+                            
+                            <!-- Personal Information -->
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label for="name" class="block text-gray-700 font-medium mb-2" data-lang="booking-name">Full Name</label>
+                                    <input type="text" id="name" class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary" placeholder="John Doe">
+                                </div>
+                                
+                                <div>
+                                    <label for="phone" class="block text-gray-700 font-medium mb-2" data-lang="booking-phone">Phone Number</label>
+                                    <input type="tel" id="phone" class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary" placeholder="(123) 456-7890">
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <label for="email" class="block text-gray-700 font-medium mb-2" data-lang="booking-email">Email Address</label>
+                                <input type="email" id="email" class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary" placeholder="john@example.com">
+                            </div>
+                            
+                            <div>
+                                <label for="notes" class="block text-gray-700 font-medium mb-2" data-lang="booking-notes">Special Requests or Notes</label>
+                                <textarea id="notes" rows="3" class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary" placeholder="Any special requests or allergies we should know about?"></textarea>
+                            </div>
+                            
+                            <div class="flex items-center">
+                                <input type="checkbox" id="terms" class="mr-2">
+                                <label for="terms" class="text-gray-700" data-lang="booking-terms">I agree to the <a href="#" class="text-accent hover:underline">terms and conditions</a></label>
+                            </div>
+                            
+                            <button type="button" id="submit-booking" class="btn-primary w-full py-3 rounded-lg font-medium text-lg" data-lang="booking-submit">Confirm Booking</button>
+                        </form>
+                    </div>
+                </div>
+                
+                <!-- Contact Info & Opening Hours -->
+                <div class="lg:w-1/3">
+                    <div class="bg-white rounded-xl shadow-lg p-8 mb-8">
+                        <h3 class="text-2xl font-bold font-playfair mb-6" data-lang="contact-info">Contact Information</h3>
+                        
+                        <div class="space-y-4">
+                            <div class="flex items-start">
+                                <div class="bg-primary p-3 rounded-full mr-4">
+                                    <i class="fas fa-map-marker-alt text-dark"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold mb-1" data-lang="address">Address</h4>
+                                    <p class="text-gray-600">123 Luxury Street, Beverly Hills, CA 90210</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start">
+                                <div class="bg-primary p-3 rounded-full mr-4">
+                                    <i class="fas fa-phone-alt text-dark"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold mb-1" data-lang="phone">Phone</h4>
+                                    <p class="text-gray-600">(123) 456-7890</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start">
+                                <div class="bg-primary p-3 rounded-full mr-4">
+                                    <i class="fas fa-envelope text-dark"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold mb-1" data-lang="email">Email</h4>
+                                    <p class="text-gray-600">info@luxurynails.com</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-8">
+                            <h4 class="font-bold mb-4" data-lang="follow-us">Follow Us</h4>
+                            <div class="flex space-x-4">
+                                <a href="#" class="bg-primary w-10 h-10 rounded-full flex items-center justify-center hover:bg-accent transition-colors">
+                                    <i class="fab fa-facebook-f text-dark"></i>
+                                </a>
+                                <a href="#" class="bg-primary w-10 h-10 rounded-full flex items-center justify-center hover:bg-accent transition-colors">
+                                    <i class="fab fa-instagram text-dark"></i>
+                                </a>
+                                <a href="#" class="bg-primary w-10 h-10 rounded-full flex items-center justify-center hover:bg-accent transition-colors">
+                                    <i class="fab fa-twitter text-dark"></i>
+                                </a>
+                                <a href="#" class="bg-primary w-10 h-10 rounded-full flex items-center justify-center hover:bg-accent transition-colors">
+                                    <i class="fab fa-pinterest text-dark"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-xl shadow-lg p-8">
+                        <h3 class="text-2xl font-bold font-playfair mb-6" data-lang="opening-hours">Opening Hours</h3>
+                        
+                        <div class="space-y-3">
+                            <div class="flex justify-between">
+                                <span class="text-gray-600" data-lang="monday">Monday</span>
+                                <span class="font-medium">9:00 AM - 7:00 PM</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-600" data-lang="tuesday">Tuesday</span>
+                                <span class="font-medium">9:00 AM - 7:00 PM</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-600" data-lang="wednesday">Wednesday</span>
+                                <span class="font-medium">9:00 AM - 7:00 PM</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-600" data-lang="thursday">Thursday</span>
+                                <span class="font-medium">9:00 AM - 7:00 PM</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-600" data-lang="friday">Friday</span>
+                                <span class="font-medium">9:00 AM - 8:00 PM</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-600" data-lang="saturday">Saturday</span>
+                                <span class="font-medium">10:00 AM - 6:00 PM</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-600" data-lang="sunday">Sunday</span>
+                                <span class="font-medium text-accent" data-lang="closed">Closed</span>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-6 p-4 bg-primary/30 rounded-lg">
+                            <p class="text-sm" data-lang="holiday-hours">Holiday hours may vary. Please call ahead for confirmation.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold font-playfair mb-4" data-lang="testimonials-title">What Our Clients Say</h2>
+                <p class="text-lg text-gray-600 max-w-3xl mx-auto" data-lang="testimonials-subtitle">Read what our valued clients have to say about their experience at Luxury Nails.</p>
+            </div>
+            
+            <div class="testimonial-carousel relative">
+                <div class="carousel-inner">
+                    <!-- Testimonial 1 -->
+                    <div class="carousel-item">
+                        <div class="bg-gray-50 rounded-xl p-8 shadow-lg max-w-4xl mx-auto">
+                            <div class="flex items-center mb-6">
+                                <div class="text-secondary">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <span class="ml-2 text-gray-600" data-lang="testimonial-date">May 15, 2023</span>
+                            </div>
+                            <p class="text-lg text-gray-700 italic mb-6" data-lang="testimonial-1">"I've been going to Luxury Nails for over a year now, and I'm always impressed with their service. The staff is friendly and professional, and my nails always look amazing. Sarah is my go-to technician - she's incredibly talented!"</p>
+                            <div class="flex items-center">
+                                <div class="w-12 h-12 bg-gray-300 rounded-full mr-4"></div>
+                                <div>
+                                    <h4 class="font-bold" data-lang="testimonial-name-1">Emily Johnson</h4>
+                                    <p class="text-gray-600" data-lang="testimonial-service-1">Regular Client</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Testimonial 2 -->
+                    <div class="carousel-item">
+                        <div class="bg-gray-50 rounded-xl p-8 shadow-lg max-w-4xl mx-auto">
+                            <div class="flex items-center mb-6">
+                                <div class="text-secondary">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <span class="ml-2 text-gray-600" data-lang="testimonial-date">June 2, 2023</span>
+                            </div>
+                            <p class="text-lg text-gray-700 italic mb-6" data-lang="testimonial-2">"The AI nail style recommendation feature is amazing! I uploaded a photo of my hand, and it suggested the perfect nail design for my upcoming wedding. Lisa did an incredible job bringing the design to life. I received so many compliments!"</p>
+                            <div class="flex items-center">
+                                <div class="w-12 h-12 bg-gray-300 rounded-full mr-4"></div>
+                                <div>
+                                    <h4 class="font-bold" data-lang="testimonial-name-2">Jennifer Lee</h4>
+                                    <p class="text-gray-600" data-lang="testimonial-service-2">Bride-to-be</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Testimonial 3 -->
+                    <div class="carousel-item">
+                        <div class="bg-gray-50 rounded-xl p-8 shadow-lg max-w-4xl mx-auto">
+                            <div class="flex items-center mb-6">
+                                <div class="text-secondary">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
+                                </div>
+                                <span class="ml-2 text-gray-600" data-lang="testimonial-date">April 28, 2023</span>
+                            </div>
+                            <p class="text-lg text-gray-700 italic mb-6" data-lang="testimonial-3">"I love the atmosphere at Luxury Nails. It's so relaxing and clean. The spa pedicure is divine - Jennifer gives the best foot massage! The online booking system is easy to use, and I appreciate the text reminders for my appointments."</p>
+                            <div class="flex items-center">
+                                <div class="w-12 h-12 bg-gray-300 rounded-full mr-4"></div>
+                                <div>
+                                    <h4 class="font-bold" data-lang="testimonial-name-3">Michael Thompson</h4>
+                                    <p class="text-gray-600" data-lang="testimonial-service-3">Spa Pedicure Client</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Carousel Controls -->
+                <button class="carousel-control-prev absolute top-1/2 left-0 transform -translate-y-1/2 bg-white rounded-full w-10 h-10 flex items-center justify-center shadow-md focus:outline-none">
+                    <i class="fas fa-chevron-left text-dark"></i>
+                </button>
+                <button class="carousel-control-next absolute top-1/2 right-0 transform -translate-y-1/2 bg-white rounded-full w-10 h-10 flex items-center justify-center shadow-md focus:outline-none">
+                    <i class="fas fa-chevron-right text-dark"></i>
+                </button>
+                
+                <!-- Carousel Indicators -->
+                <div class="carousel-indicators">
+                    <div class="carousel-indicator active"></div>
+                    <div class="carousel-indicator"></div>
+                    <div class="carousel-indicator"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-16 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold font-playfair mb-4" data-lang="contact-title">Get in Touch</h2>
+                <p class="text-lg text-gray-600 max-w-3xl mx-auto" data-lang="contact-subtitle">Have a question or concern? We'd love to hear from you. Contact us using the information below.</p>
+            </div>
+            
+            <div class="flex flex-col lg:flex-row">
+                <!-- Contact Form -->
+                <div class="lg:w-2/3 lg:pr-10 mb-10 lg:mb-0">
+                    <div class="bg-white rounded-xl shadow-lg p-8">
+                        <form id="contact-form" class="space-y-6">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label for="contact-name" class="block text-gray-700 font-medium mb-2" data-lang="contact-name">Full Name</label>
+                                    <input type="text" id="contact-name" class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary" placeholder="John Doe">
+                                </div>
+                                
+                                <div>
+                                    <label for="contact-email" class="block text-gray-700 font-medium mb-2" data-lang="contact-email">Email Address</label>
+                                    <input type="email" id="contact-email" class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary" placeholder="john@example.com">
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <label for="contact-subject" class="block text-gray-700 font-medium mb-2" data-lang="contact-subject">Subject</label>
+                                <input type="text" id="contact-subject" class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary" placeholder="How can we help you?">
+                            </div>
+                            
+                            <div>
+                                <label for="contact-message" class="block text-gray-700 font-medium mb-2" data-lang="contact-message">Message</label>
+                                <textarea id="contact-message" rows="5" class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary" placeholder="Please enter your message here..."></textarea>
+                            </div>
+                            
+                            <button type="button" id="submit-contact" class="btn-primary w-full py-3 rounded-lg font-medium text-lg" data-lang="contact-submit">Send Message</button>
+                        </form>
+                    </div>
+                </div>
+                
+                <!-- Map and Additional Info -->
+                <div class="lg:w-1/3">
+                    <div class="bg-white rounded-xl shadow-lg overflow-hidden mb-8">
+                        <!-- Map Placeholder -->
+                        <div class="h-64 bg-gray-200 relative">
+                            <div class="absolute inset-0 flex items-center justify-center">
+                                <p class="text-gray-600" data-lang="map-placeholder">Map Location</p>
+                            </div>
+                        </div>
+                        
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold font-playfair mb-4" data-lang="visit-us">Visit Us</h3>
+                            <p class="text-gray-600 mb-4">123 Luxury Street, Beverly Hills, CA 90210</p>
+                            
+                            <div class="flex items-center text-gray-600 mb-2">
+                                <i class="fas fa-phone-alt mr-2 text-accent"></i>
+                                <span>(123) 456-7890</span>
+                            </div>
+                            
+                            <div class="flex items-center text-gray-600">
+                                <i class="fas fa-envelope mr-2 text-accent"></i>
+                                <span>info@luxurynails.com</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-xl shadow-lg p-6">
+                        <h3 class="text-xl font-bold font-playfair mb-4" data-lang="faq">Frequently Asked Questions</h3>
+                        
+                        <div class="space-y-4">
+                            <div>
+                                <h4 class="font-bold text-gray-700" data-lang="faq-1">Do you accept walk-ins?</h4>
+                                <p class="text-gray-600" data-lang="faq-1-answer">While we prefer appointments, we do accept walk-ins based on availability.</p>
+                            </div>
+                            
+                            <div>
+                                <h4 class="font-bold text-gray-700" data-lang="faq-2">What is your cancellation policy?</h4>
+                                <p class="text-gray-600" data-lang="faq-2-answer">We require 24 hours notice for cancellations. Late cancellations may be charged a fee.</p>
+                            </div>
+                            
+                            <div>
+                                <h4 class="font-bold text-gray-700" data-lang="faq-3">Do you offer gift cards?</h4>
+                                <p class="text-gray-600" data-lang="faq-3-answer">Yes, we offer gift cards in various denominations. They make perfect gifts!</p>
+                            </div>
+                            
+                            <div>
+                                <h4 class="font-bold text-gray-700" data-lang="faq-4">Are you open on holidays?</h4>
+                                <p class="text-gray-600" data-lang="faq-4-answer">Our holiday hours vary. Please check our website or call ahead for holiday hours.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-6">
+                            <a href="#booking" class="btn-primary block text-center py-2 rounded-lg" data-lang="book-now">Book Now</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Company Info -->
+                <div>
+                    <div class="flex items-center mb-6">
+                        <img src="https://p11-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/fc31d68c0a0e41838791c73b3f6373ce~tplv-a9rns2rl98-image.image?lk3s=8e244e95&amp;rcl=20260315233239989429D071DD01BA2A3B&amp;rrcfp=f06b921b&amp;x-expires=1776180821&amp;x-signature=dOx9c7TXoYeuPoRS9F4KWGhj3oQ%3D" alt="Luxury Nails Logo" class="h-10 w-auto">
+                        <h3 class="ml-2 text-xl font-bold font-playfair" data-lang="logo">Luxury Nails</h3>
+                    </div>
+                    <p class="text-gray-400 mb-6" data-lang="footer-about">Premium nail salon offering luxurious services in a relaxing environment. Your beauty is our priority.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-primary">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-primary">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-primary">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-primary">
+                            <i class="fab fa-pinterest"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Quick Links -->
+                <div>
+                    <h3 class="text-lg font-bold mb-6" data-lang="quick-links">Quick Links</h3>
+                    <ul class="space-y-3">
+                        <li><a href="#home" class="text-gray-400 hover:text-primary" data-lang="nav-home">Home</a></li>
+                        <li><a href="#services" class="text-gray-400 hover:text-primary" data-lang="nav-services">Services</a></li>
+                        <li><a href="#gallery" class="text-gray-400 hover:text-primary" data-lang="nav-gallery">Gallery</a></li>
+                        <li><a href="#about" class="text-gray-400 hover:text-primary" data-lang="nav-about">About Us</a></li>
+                        <li><a href="#contact" class="text-gray-400 hover:text-primary" data-lang="nav-contact">Contact</a></li>
+                        <li><a href="#booking" class="text-gray-400 hover:text-primary" data-lang="nav-book">Book Now</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Services -->
+                <div>
+                    <h3 class="text-lg font-bold mb-6" data-lang="our-services">Our Services</h3>
+                    <ul class="space-y-3">
+                        <li><a href="#services" class="text-gray-400 hover:text-primary" data-lang="service-1-title">Basic Manicure</a></li>
+                        <li><a href="#services" class="text-gray-400 hover:text-primary" data-lang="service-2-title">Gel Nails</a></li>
+                        <li><a href="#services" class="text-gray-400 hover:text-primary" data-lang="service-3-title">Nail Art</a></li>
+                        <li><a href="#services" class="text-gray-400 hover:text-primary" data-lang="service-4-title">Spa Pedicure</a></li>
+                        <li><a href="#services" class="text-gray-400 hover:text-primary" data-lang="service-5-title">Acrylic Nails</a></li>
+                        <li><a href="#services" class="text-gray-400 hover:text-primary" data-lang="service-6-title">Nail Repair</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Newsletter -->
+                <div>
+                    <h3 class="text-lg font-bold mb-6" data-lang="newsletter">Newsletter</h3>
+                    <p class="text-gray-400 mb-4" data-lang="newsletter-text">Subscribe to our newsletter for exclusive offers and updates.</p>
+                    <form class="mb-4">
+                        <div class="flex">
+                            <input type="email" placeholder="Your email" class="px-4 py-2 w-full rounded-l-lg focus:outline-none text-dark">
+                            <button type="button" class="bg-primary text-dark px-4 py-2 rounded-r-lg hover:bg-accent transition-colors">
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </div>
+                    </form>
+                    <p class="text-gray-400 text-sm" data-lang="newsletter-privacy">We respect your privacy. Your information is safe with us.</p>
+                </div>
+            </div>
+            
+            <hr class="border-gray-800 my-8">
+            
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <p class="text-gray-400 mb-4 md:mb-0" data-lang="copyright">© 2023 Luxury Nails. All rights reserved.</p>
+                <div class="flex space-x-6">
+                    <a href="#" class="text-gray-400 hover:text-primary" data-lang="terms">Terms of Service</a>
+                    <a href="#" class="text-gray-400 hover:text-primary" data-lang="privacy">Privacy Policy</a>
+                    <a href="#" class="text-gray-400 hover:text-primary" data-lang="cookies">Cookie Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button id="back-to-top" class="fixed bottom-8 right-8 bg-primary text-dark w-12 h-12 rounded-full flex items-center justify-center shadow-lg opacity-0 invisible transition-all duration-300">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- Booking Confirmation Modal -->
+    <div id="booking-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-xl p-8 max-w-md mx-4">
+            <div class="text-center">
+                <div class="inline-flex items-center justify-center w-16 h-16 bg-green-100 rounded-full mb-6">
+                    <i class="fas fa-check text-green-500 text-2xl"></i>
+                </div>
+                <h3 class="text-2xl font-bold font-playfair mb-4" data-lang="booking-success">Booking Confirmed!</h3>
+                <p class="text-gray-600 mb-6" data-lang="booking-thank">Thank you for choosing Luxury Nails. We look forward to seeing you!</p>
+                <div class="bg-gray-100 p-4 rounded-lg mb-6">
+                    <div class="grid grid-cols-2 gap-2 text-sm">
+                        <div class="text-gray-600" data-lang="booking-details-service">Service:</div>
+                        <div class="font-medium" id="modal-service">Basic Manicure</div>
+                        
+                        <div class="text-gray-600" data-lang="booking-details-technician">Technician:</div>
+                        <div class="font-medium" id="modal-technician">Sarah Johnson</div>
+                        
+                        <div class="text-gray-600" data-lang="booking-details-date">Date:</div>
+                        <div class="font-medium" id="modal-date">June 15, 2023</div>
+                        
+                        <div class="text-gray-600" data-lang="booking-details-time">Time:</div>
+                        <div class="font-medium" id="modal-time">2:00 PM</div>
+                        
+                        <div class="text-gray-600" data-lang="booking-details-id">Booking ID:</div>
+                        <div class="font-medium" id="modal-id">LN12345</div>
+                    </div>
+                </div>
+                <p class="text-gray-600 mb-6" data-lang="booking-email">A confirmation email has been sent to your inbox.</p>
+                <button id="close-booking-modal" class="btn-primary w-full py-3 rounded-lg font-medium" data-lang="booking-close">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contact Confirmation Modal -->
+    <div id="contact-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-xl p-8 max-w-md mx-4">
+            <div class="text-center">
+                <div class="inline-flex items-center justify-center w-16 h-16 bg-green-100 rounded-full mb-6">
+                    <i class="fas fa-check text-green-500 text-2xl"></i>
+                </div>
+                <h3 class="text-2xl font-bold font-playfair mb-4" data-lang="contact-success">Message Sent!</h3>
+                <p class="text-gray-600 mb-6" data-lang="contact-thank">Thank you for contacting us. We will get back to you soon.</p>
+                <button id="close-contact-modal" class="btn-primary w-full py-3 rounded-lg font-medium" data-lang="contact-close">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Language translations
+        const translations = {
+            en: {
+                // Navigation
+                'logo': 'Luxury Nails',
+                'nav-home': 'Home',
+                'nav-services': 'Services',
+                'nav-gallery': 'Gallery',
+                'nav-about': 'About Us',
+                'nav-contact': 'Contact',
+                'nav-book': 'Book Now',
+                'lang': 'Language:',
+                
+                // Hero Section
+                'hero-title': 'Experience Luxury Nail Care',
+                'hero-subtitle': 'Indulge in our premium nail services designed to make you feel beautiful and confident.',
+                'hero-book': 'Book Appointment',
+                'hero-services': 'Our Services',
+                
+                // Services Section
+                'services-title': 'Our Services',
+                'services-subtitle': 'Discover our wide range of premium nail services designed to pamper and beautify your hands and feet.',
+                'service-1-title': 'Basic Manicure',
+                'service-1-desc': 'Our classic manicure includes nail shaping, cuticle care, hand massage, and your choice of nail polish.',
+                'service-2-title': 'Gel Nails',
+                'service-2-desc': 'Long-lasting gel polish that provides a high-gloss finish and chip-free wear for up to two weeks.',
+                'service-3-title': 'Nail Art',
+                'service-3-desc': 'Custom nail designs created by our talented artists. From simple patterns to intricate 3D designs.',
+                'service-4-title': 'Spa Pedicure',
+                'service-4-desc': 'Relaxing foot soak, exfoliation, callus removal, foot massage, and polish application for beautiful feet.',
+                'service-5-title': 'Acrylic Nails',
+                'service-5-desc': 'Durable acrylic extensions that add length and strength to your natural nails, available in various shapes.',
+                'service-6-title': 'Nail Repair',
+                'service-6-desc': 'Professional repair of broken or damaged nails using specialized techniques and products.',
+                'service-duration': 'Duration',
+                'book-now': 'Book Now',
+                'view-all-services': 'View All Services',
+                
+                // Gallery Section
+                'gallery-title': 'Our Work',
+                'gallery-subtitle': 'Browse our gallery of beautiful nail designs created by our talented team of nail artists.',
+                'gallery-item-1': 'Gel Manicure with Glitter',
+                'gallery-desc-1': 'Elegant black and pink design with gold accents',
+                'gallery-item-2': 'Autumn Inspired Nails',
+                'gallery-desc-2': 'Warm brown tones with minimalist design',
+                'gallery-item-3': 'Natural Gel Nails',
+                'gallery-desc-3': 'Subtle pink gel with delicate gold accent',
+                'gallery-item-4': 'Holiday Sparkle',
+                'gallery-desc-4': 'Deep red nails with glitter accents',
+                'gallery-item-5': 'Luxury 3D Design',
+                'gallery-desc-5': 'Intricate gold patterns on pink acrylic',
+                'gallery-item-6': 'Minimalist Line Art',
+                'gallery-desc-6': 'Simple gold lines on soft pink base',
+                'ai-recommendation-btn': 'Try AI Nail Style Recommendation',
+                
+                // About Section
+                'about-title': 'About Luxury Nails',
+                'about-text-1': 'Luxury Nails is a premium nail salon located in the heart of the city, dedicated to providing exceptional nail care services in a luxurious and relaxing environment.',
+                'about-text-2': 'Our team of highly skilled and experienced nail technicians are committed to delivering the highest quality services using only the finest products in the industry.',
+                'about-text-3': 'We believe that every client deserves to be pampered and treated with the utmost care and attention to detail. Our goal is to exceed your expectations and leave you feeling beautiful and confident.',
+                'about-feature-1': 'Quality Products',
+                'about-feature-1-desc': 'We use only premium nail products',
+                'about-feature-2': 'Experienced Staff',
+                'about-feature-2-desc': 'Skilled and certified technicians',
+                'about-feature-3': 'Clean Environment',
+                'about-feature-3-desc': 'Sanitary and hygienic practices',
+                'about-feature-4': 'Relaxing Atmosphere',
+                'about-feature-4-desc': 'Comfortable and peaceful setting',
+                'our-team': 'Our Team',
+                'team-member-1': 'Sarah Johnson',
+                'team-title-1': 'Master Nail Technician',
+                'team-desc-1': '10+ years of experience in nail art and design',
+                'team-member-2': 'Lisa Chen',
+                'team-title-2': 'Gel Specialist',
+                'team-desc-2': 'Expert in gel nail application and design',
+                'team-member-3': 'Maria Rodriguez',
+                'team-title-3': 'Nail Artist',
+                'team-desc-3': 'Specializes in creative nail art designs',
+                'team-member-4': 'Jennifer Kim',
+                'team-title-4': 'Spa Pedicure Expert',
+                'team-desc-4': 'Specializes in luxurious foot treatments',
+                
+                // AI Recommendation Section
+                'ai-title': 'AI Nail Style Recommendation',
+                'ai-subtitle': 'Get personalized nail style recommendations based on your preferences and hand shape. Our AI will analyze your photo and suggest the perfect nail designs for you.',
+                'ai-form-title': 'Get Your Personalized Recommendations',
+                'ai-upload-photo': 'Upload a photo of your hand',
+                'ai-upload-text': 'Click to upload or drag and drop',
+                'ai-upload-note': 'Supported formats: JPG, PNG',
+                'ai-nail-length': 'Nail Length Preference',
+                'ai-short': 'Short',
+                'ai-medium': 'Medium',
+                'ai-long': 'Long',
+                'ai-nail-shape': 'Nail Shape Preference',
+                'ai-square': 'Square',
+                'ai-round': 'Round',
+                'ai-almond': 'Almond',
+                'ai-stiletto': 'Stiletto',
+                'ai-coffin': 'Coffin',
+                'ai-natural': 'Natural',
+                'ai-color-pref': 'Color Preference',
+                'ai-occasion': 'Occasion',
+                'ai-everyday': 'Everyday',
+                'ai-work': 'Work',
+                'ai-party': 'Party',
+                'ai-wedding': 'Wedding',
+                'ai-vacation': 'Vacation',
+                'ai-special': 'Special Occasion',
+                'ai-generate': 'Generate Recommendations',
+                'ai-analyzing': 'Analyzing your preferences...',
+                'ai-results-title': 'Your Personalized Recommendations',
+                'ai-rec-1-title': 'Elegant Evening',
+                'ai-rec-1-desc': 'Perfect for special occasions with its sophisticated black and pink design',
+                'ai-rec-2-title': 'Autumn Glow',
+                'ai-rec-2-desc': 'Warm tones that complement your skin tone and are perfect for everyday wear',
+                'ai-rec-3-title': 'Natural Elegance',
+                'ai-rec-3-desc': 'Subtle pink shade with delicate gold accents for a professional yet stylish look',
+                'ai-rec-4-title': 'Bold & Beautiful',
+                'ai-rec-4-desc': 'Striking red nails with glitter accents that make a statement',
+                'ai-rec-compatibility': 'Match',
+                'ai-rec-book': 'Book This Style',
+                'ai-book-appointment': 'Book an Appointment',
+                'ai-benefits-title': 'Why Use Our AI Recommendation?',
+                'ai-benefit-1': 'Personalized to You',
+                'ai-benefit-1-desc': 'Our AI analyzes your hand shape, skin tone, and preferences to suggest styles that flatter you',
+                'ai-benefit-2': 'Stay on Trend',
+                'ai-benefit-2-desc': 'Get recommendations based on the latest nail trends that suit your personal style',
+                'ai-benefit-3': 'Save Time',
+                'ai-benefit-3-desc': 'Skip the endless scrolling through nail inspiration - get personalized suggestions instantly',
+                'ai-benefit-4': 'Perfect for Every Occasion',
+                'ai-benefit-4-desc': 'Whether it\'s for work, a special event, or everyday wear, we\'ve got you covered',
+                
+                // Booking Section
+                'booking-title': 'Book Your Appointment',
+                'booking-subtitle': 'Reserve your spot today and treat yourself to a luxurious nail experience.',
+                'booking-service': 'Select Service',
+                'booking-select-service': 'Please select a service',
+                'booking-technician': 'Select Technician',
+                'booking-select-technician': 'Please select a technician',
+                'booking-any-available': 'Any Available Technician',
+                'booking-date': 'Select Date',
+                'booking-time': 'Select Time',
+                'booking-select-time': 'Please select a time',
+                'booking-name': 'Full Name',
+                'booking-phone': 'Phone Number',
+                'booking-email': 'Email Address',
+                'booking-notes': 'Special Requests or Notes',
+                'booking-terms': 'I agree to the terms and conditions',
+                'booking-submit': 'Confirm Booking',
+                'booking-success': 'Booking Confirmed!',
+                'booking-thank': 'Thank you for choosing Luxury Nails. We look forward to seeing you!',
+                'booking-details-service': 'Service:',
+                'booking-details-technician': 'Technician:',
+                'booking-details-date': 'Date:',
+                'booking-details-time': 'Time:',
+                'booking-details-id': 'Booking ID:',
+                'booking-email': 'A confirmation email has been sent to your inbox.',
+                'booking-close': 'Close',
+                
+                // Contact Section
+                'contact-title': 'Get in Touch',
+                'contact-subtitle': 'Have a question or concern? We\'d love to hear from you. Contact us using the information below.',
+                'contact-name': 'Full Name',
+                'contact-email': 'Email Address',
+                'contact-subject': 'Subject',
+                'contact-message': 'Message',
+                'contact-submit': 'Send Message',
+                'contact-success': 'Message Sent!',
+                'contact-thank': 'Thank you for contacting us. We will get back to you soon.',
+                'contact-close': 'Close',
+                'visit-us': 'Visit Us',
+                'faq': 'Frequently Asked Questions',
+                'faq-1': 'Do you accept walk-ins?',
+                'faq-1-answer': 'While we prefer appointments, we do accept walk-ins based on availability.',
+                'faq-2': 'What is your cancellation policy?',
+                'faq-2-answer': 'We require 24 hours notice for cancellations. Late cancellations may be charged a fee.',
+                'faq-3': 'Do you offer gift cards?',
+                'faq-3-answer': 'Yes, we offer gift cards in various denominations. They make perfect gifts!',
+                'faq-4': 'Are you open on holidays?',
+                'faq-4-answer': 'Our holiday hours vary. Please check our website or call ahead for holiday hours.',
+                
+                // Testimonials Section
+                'testimonials-title': 'What Our Clients Say',
+                'testimonials-subtitle': 'Read what our valued clients have to say about their experience at Luxury Nails.',
+                'testimonial-date': 'Date',
+                'testimonial-1': '"I\'ve been going to Luxury Nails for over a year now, and I\'m always impressed with their service. The staff is friendly and professional, and my nails always look amazing. Sarah is my go-to technician - she\'s incredibly talented!"',
+                'testimonial-name-1': 'Emily Johnson',
+                'testimonial-service-1': 'Regular Client',
+                'testimonial-2': '"The AI nail style recommendation feature is amazing! I uploaded a photo of my hand, and it suggested the perfect nail design for my upcoming wedding. Lisa did an incredible job bringing the design to life. I received so many compliments!"',
+                'testimonial-name-2': 'Jennifer Lee',
+                'testimonial-service-2': 'Bride-to-be',
+                'testimonial-3': '"I love the atmosphere at Luxury Nails. It\'s so relaxing and clean. The spa pedicure is divine - Jennifer gives the best foot massage! The online booking system is easy to use, and I appreciate the text reminders for my appointments."',
+                'testimonial-name-3': 'Michael Thompson',
+                'testimonial-service-3': 'Spa Pedicure Client',
+                
+                // Footer
+                'footer-about': 'Premium nail salon offering luxurious services in a relaxing environment. Your beauty is our priority.',
+                'quick-links': 'Quick Links',
+                'our-services': 'Our Services',
+                'newsletter': 'Newsletter',
+                'newsletter-text': 'Subscribe to our newsletter for exclusive offers and updates.',
+                'newsletter-privacy': 'We respect your privacy. Your information is safe with us.',
+                'copyright': '© 2023 Luxury Nails. All rights reserved.',
+                'terms': 'Terms of Service',
+                'privacy': 'Privacy Policy',
+                'cookies': 'Cookie Policy',
+                
+                // Contact Info
+                'contact-info': 'Contact Information',
+                'address': 'Address',
+                'phone': 'Phone',
+                'email': 'Email',
+                'follow-us': 'Follow Us',
+                'opening-hours': 'Opening Hours',
+                'monday': 'Monday',
+                'tuesday': 'Tuesday',
+                'wednesday': 'Wednesday',
+                'thursday': 'Thursday',
+                'friday': 'Friday',
+                'saturday': 'Saturday',
+                'sunday': 'Sunday',
+                'closed': 'Closed',
+                'holiday-hours': 'Holiday hours may vary. Please call ahead for confirmation.',
+                'map-placeholder': 'Map Location'
+            },
+            zh: {
+                // Navigation
+                'logo': '奢华美甲',
+                'nav-home': '首页',
+                'nav-services': '服务项目',
+                'nav-gallery': '作品展示',
+                'nav-about': '关于我们',
+                'nav-contact': '联系方式',
+                'nav-book': '立即预约',
+                'lang': '语言:',
+                
+                // Hero Section
+                'hero-title': '体验奢华美甲护理',
+                'hero-subtitle': '享受我们为您量身定制的高端美甲服务，让您感受美丽与自信。',
+                'hero-book': '预约服务',
+                'hero-services': '我们的服务',
+                
+                // Services Section
+                'services-title': '我们的服务',
+                'services-subtitle': '探索我们丰富多样的高端美甲服务，为您的双手和双脚提供呵护与美化。',
+                'service-1-title': '基础美甲',
+                'service-1-desc': '我们的经典美甲包括指甲塑形、角质护理、手部按摩和您选择的指甲油。',
+                'service-2-title': '凝胶美甲',
+                'service-2-desc': '持久的凝胶指甲油，提供高光泽度和长达两周的无剥落效果。',
+                'service-3-title': '艺术美甲',
+                'service-3-desc': '由我们才华横溢的艺术家创作的定制美甲设计，从简单图案到复杂的3D设计。',
+                'service-4-title': '水疗足疗',
+                'service-4-desc': '放松的足部浸泡、去角质、老茧去除、足部按摩和指甲油应用，让您的双脚美丽动人。',
+                'service-5-title': '亚克力美甲',
+                'service-5-desc': '耐用的亚克力延长甲，为您的自然指甲增加长度和强度，提供各种形状选择。',
+                'service-6-title': '指甲修复',
+                'service-6-desc': '使用专业技术和产品修复破损或受损的指甲。',
+                'service-duration': '时长',
+                'book-now': '立即预约',
+                'view-all-services': '查看所有服务',
+                
+                // Gallery Section
+                'gallery-title': '我们的作品',
+                'gallery-subtitle': '浏览我们由才华横溢的美甲师团队创作的精美美甲设计。',
+                'gallery-item-1': '闪钻凝胶美甲',
+                'gallery-desc-1': '优雅的黑色和粉色设计，配以金色点缀',
+                'gallery-item-2': '秋季灵感美甲',
+                'gallery-desc-2': '温暖的棕色色调，简约设计',
+                'gallery-item-3': '自然凝胶美甲',
+                'gallery-desc-3': '柔和的粉色凝胶，配以精致的金色点缀',
+                'gallery-item-4': '节日闪耀',
+                'gallery-desc-4': '深红色指甲，配以闪钻点缀',
+                'gallery-item-5': '奢华3D设计',
+                'gallery-desc-5': '粉色亚克力上的精致金色图案',
+                'gallery-item-6': '极简线条艺术',
+                'gallery-desc-6': '柔和粉色底色上的简单金色线条',
+                'ai-recommendation-btn': '尝试AI美甲风格推荐',
+                
+                // About Section
+                'about-title': '关于奢华美甲',
+                'about-text-1': '奢华美甲是位于市中心的高端美甲沙龙，致力于在奢华放松的环境中提供卓越的美甲护理服务。',
+                'about-text-2': '我们的团队由高度熟练且经验丰富的美甲技师组成，致力于使用行业中最优质的产品提供最高质量的服务。',
+                'about-text-3': '我们相信每位客户都值得被呵护，并得到最大的关注和细节处理。我们的目标是超越您的期望，让您感到美丽和自信。',
+                'about-feature-1': '优质产品',
+                'about-feature-1-desc': '我们只使用高端美甲产品',
+                'about-feature-2': '经验丰富的员工',
+                'about-feature-2-desc': '熟练且认证的技师',
+                'about-feature-3': '清洁环境',
+                'about-feature-3-desc': '卫生和健康的操作规范',
+                'about-feature-4': '放松氛围',
+                'about-feature-4-desc': '舒适和平静的环境',
+                'our-team': '我们的团队',
+                'team-member-1': '莎拉·约翰逊',
+                'team-title-1': '美甲大师技师',
+                'team-desc-1': '10年以上美甲艺术和设计经验',
+                'team-member-2': '陈丽莎',
+                'team-title-2': '凝胶专家',
+                'team-desc-2': '凝胶美甲应用和设计专家',
+                'team-member-3': '玛丽亚·罗德里格斯',
+                'team-title-3': '美甲艺术家',
+                'team-desc-3': '专注于创意美甲艺术设计',
+                'team-member-4': '金珍妮弗',
+                'team-title-4': '水疗足疗专家',
+                'team-desc-4': '专注于奢华足部护理',
+                
+                // AI Recommendation Section
+                'ai-title': 'AI美甲风格推荐',
+                'ai-subtitle': '根据您的偏好和手型获取个性化的美甲风格推荐。我们的AI将分析您的照片并为您推荐完美的美甲设计。',
+                'ai-form-title': '获取您的个性化推荐',
+                'ai-upload-photo': '上传您的手部照片',
+                'ai-upload-text': '点击上传或拖放',
+                'ai-upload-note': '支持格式：JPG、PNG',
+                'ai-nail-length': '指甲长度偏好',
+                'ai-short': '短',
+                'ai-medium': '中',
+                'ai-long': '长',
+                'ai-nail-shape': '指甲形状偏好',
+                'ai-square': '方形',
+                'ai-round': '圆形',
+                'ai-almond': '杏仁形',
+                'ai-stiletto': '尖形',
+                'ai-coffin': '棺材形',
+                'ai-natural': '自然形',
+                'ai-color-pref': '颜色偏好',
+                'ai-occasion': '场合',
+                'ai-everyday': '日常',
+                'ai-work': '工作',
+                'ai-party': '派对',
+                'ai-wedding': '婚礼',
+                'ai-vacation': '度假',
+                'ai-special': '特殊场合',
+                'ai-generate': '生成推荐',
+                'ai-analyzing': '正在分析您的偏好...',
+                'ai-results-title': '您的个性化推荐',
+                'ai-rec-1-title': '优雅晚宴',
+                'ai-rec-1-desc': '完美适合特殊场合，精致的黑色和粉色设计',
+                'ai-rec-2-title': '秋日光泽',
+                'ai-rec-2-desc': '温暖色调，与您的肤色相得益彰，完美适合日常佩戴',
+                'ai-rec-3-title': '自然优雅',
+                'ai-rec-3-desc': '柔和的粉色调，配以精致的金色点缀，专业而时尚',
+                'ai-rec-4-title': '大胆美丽',
+                'ai-rec-4-desc': '醒目的红色指甲，配以闪钻点缀，彰显个性',
+                'ai-rec-compatibility': '匹配度',
+                'ai-rec-book': '预约此风格',
+                'ai-book-appointment': '预约服务',
+                'ai-benefits-title': '为什么使用我们的AI推荐？',
+                'ai-benefit-1': '为您个性化定制',
+                'ai-benefit-1-desc': '我们的AI分析您的手型、肤色和偏好，推荐最适合您的风格',
+                'ai-benefit-2': '紧跟潮流',
+                'ai-benefit-2-desc': '获取基于最新美甲趋势的推荐，适合您的个人风格',
+                'ai-benefit-3': '节省时间',
+                'ai-benefit-3-desc': '跳过无尽的美甲灵感浏览，立即获取个性化建议',
+                'ai-benefit-4': '适合各种场合',
+                'ai-benefit-4-desc': '无论是工作、特殊活动还是日常佩戴，我们都能满足您的需求',
+                
+                // Booking Section
+                'booking-title': '预约您的服务',
+                'booking-subtitle': '立即预约，享受奢华的美甲体验。',
+                'booking-service': '选择服务',
+                'booking-select-service': '请选择服务',
+                'booking-technician': '选择技师',
+                'booking-select-technician': '请选择技师',
+                'booking-any-available': '任何可用技师',
+                'booking-date': '选择日期',
+                'booking-time': '选择时间',
+                'booking-select-time': '请选择时间',
+                'booking-name': '全名',
+                'booking-phone': '电话号码',
+                'booking-email': '电子邮箱',
+                'booking-notes': '特殊要求或备注',
+                'booking-terms': '我同意条款和条件',
+                'booking-submit': '确认预约',
+                'booking-success': '预约确认！',
+                'booking-thank': '感谢您选择奢华美甲。我们期待与您相见！',
+                'booking-details-service': '服务：',
+                'booking-details-technician': '技师：',
+                'booking-details-date': '日期：',
+                'booking-details-time': '时间：',
+                'booking-details-id': '预约ID：',
+                'booking-email': '确认邮件已发送至您的收件箱。',
+                'booking-close': '关闭',
+                
+                // Contact Section
+                'contact-title': '联系我们',
+                'contact-subtitle': '有问题或疑虑？我们很乐意听取您的意见。使用以下信息联系我们。',
+                'contact-name': '全名',
+                'contact-email': '电子邮箱',
+                'contact-subject': '主题',
+                'contact-message': '留言',
+                'contact-submit': '发送留言',
+                'contact-success': '留言已发送！',
+                'contact-thank': '感谢您联系我们。我们将尽快回复您。',
+                'contact-close': '关闭',
+                'visit-us': '来访我们',
+                'faq': '常见问题',
+                'faq-1': '你们接受无预约服务吗？',
+                'faq-1-answer': '虽然我们更倾向于预约，但我们也接受基于可用性的无预约服务。',
+                'faq-2': '你们的取消政策是什么？',
+                'faq-2-answer': '我们要求取消预约需提前24小时通知。迟到取消可能会收取费用。',
+                'faq-3': '你们提供礼品卡吗？',
+                'faq-3-answer': '是的，我们提供各种面额的礼品卡。它们是完美的礼物！',
+                'faq-4': '你们在节假日营业吗？',
+                'faq-4-answer': '我们的节假日营业时间各不相同。请查看我们的网站或提前致电确认。',
+                
+                // Testimonials Section
+                'testimonials-title': '客户评价',
+                'testimonials-subtitle': '阅读我们尊贵的客户对奢华美甲体验的评价。',
+                'testimonial-date': '日期',
+                'testimonial-1': '"我已经在奢华美甲做了一年多的美甲，他们的服务总是让我印象深刻。员工友好专业，我的指甲总是看起来很棒。莎拉是我的首选技师 - 她非常有才华！"',
+                'testimonial-name-1': '艾米丽·约翰逊',
+                'testimonial-service-1': '常客',
+                'testimonial-2': '"AI美甲风格推荐功能太棒了！我上传了我的手部照片，它为我即将到来的婚礼推荐了完美的美甲设计。丽莎出色地将设计变为现实。我收到了很多赞美！"',
+                'testimonial-name-2': '李珍妮弗',
+                'testimonial-service-2': '准新娘',
+                'testimonial-3': '"我喜欢奢华美甲的氛围。它非常放松和干净。水疗足疗太棒了 - 珍妮弗提供最好的足部按摩！在线预约系统易于使用，我很欣赏我的预约短信提醒。"',
+                'testimonial-name-3': '迈克尔·汤普森',
+                'testimonial-service-3': '水疗足疗客户',
+                
+                // Footer
+                'footer-about': '高端美甲沙龙，在放松的环境中提供奢华服务。您的美丽是我们的首要任务。',
+                'quick-links': '快速链接',
+                'our-services': '我们的服务',
+                'newsletter': '通讯订阅',
+                'newsletter-text': '订阅我们的通讯，获取独家优惠和更新。',
+                'newsletter-privacy': '我们尊重您的隐私。您的信息对我们来说是安全的。',
+                'copyright': '© 2023 奢华美甲。保留所有权利。',
+                'terms': '服务条款',
+                'privacy': '隐私政策',
+                'cookies': 'Cookie政策',
+                
+                // Contact Info
+                'contact-info': '联系信息',
+                'address': '地址',
+                'phone': '电话',
+                'email': '邮箱',
+                'follow-us': '关注我们',
+                'opening-hours': '营业时间',
+                'monday': '周一',
+                'tuesday': '周二',
+                'wednesday': '周三',
+                'thursday': '周四',
+                'friday': '周五',
+                'saturday': '周六',
+                'sunday': '周日',
+                'closed': '休息',
+                'holiday-hours': '节假日营业时间可能有所不同。请提前致电确认。',
+                'map-placeholder': '地图位置'
+            }
+        };
+        
+        // Set default language
+        let currentLang = 'en';
+        
+        // Function to change language
+        function changeLanguage(lang) {
+            currentLang = lang;
+            document.getElementById('current-lang').textContent = lang.toUpperCase();
+            
+            // Update all elements with data-lang attribute
+            document.querySelectorAll('[data-lang]').forEach(el => {
+                const key = el.getAttribute('data-lang');
+                if (translations[lang][key]) {
+                    el.textContent = translations[lang][key];
+                }
+            });
+            
+            // Update placeholder attributes
+            document.querySelectorAll('input[placeholder], textarea[placeholder]').forEach(el => {
+                const placeholderKey = el.getAttribute('placeholder');
+                if (translations[lang][placeholderKey]) {
+                    el.setAttribute('placeholder', translations[lang][placeholderKey]);
+                }
+            });
+            
+            // Update option elements
+            document.querySelectorAll('option').forEach(el => {
+                const optionKey = el.getAttribute('data-lang');
+                if (optionKey && translations[lang][optionKey]) {
+                    el.textContent = translations[lang][optionKey];
+                }
+            });
+            
+            // Save language preference to localStorage
+            localStorage.setItem('preferredLanguage', lang);
+        }
+        
+        // Check for saved language preference
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedLang = localStorage.getItem('preferredLanguage') || 'en';
+            changeLanguage(savedLang);
+            
+            // Set minimum date for booking to today
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('date').min = today;
+            
+            // Initialize 3D nail model (placeholder for Three.js implementation)
+            // initNailModel();
+            
+            // Initialize carousel
+            initCarousel();
+            
+            // Initialize gallery filter
+            initGalleryFilter();
+            
+            // Initialize AI recommendation form
+            initAIRecommendation();
+            
+            // Initialize booking form
+            initBookingForm();
+            
+            // Initialize contact form
+            initContactForm();
+            
+            // Initialize mobile menu
+            initMobileMenu();
+            
+            // Initialize back to top button
+            initBackToTop();
+            
+            // Initialize smooth scrolling for anchor links
+            initSmoothScroll();
+            
+            // Initialize language switcher
+            initLanguageSwitcher();
+        });
+        
+        // Function to initialize language switcher
+        function initLanguageSwitcher() {
+            // Desktop language switcher
+            document.querySelectorAll('.lang-option').forEach(option => {
+                option.addEventListener('click', function() {
+                    const lang = this.getAttribute('data-value');
+                    changeLanguage(lang);
+                });
+            });
+            
+            // Mobile language switcher
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const lang = this.getAttribute('data-value');
+                    changeLanguage(lang);
+                    
+                    // Update active state
+                    document.querySelectorAll('.lang-btn').forEach(b => {
+                        b.classList.remove('bg-primary');
+                    });
+                    this.classList.add('bg-primary');
+                });
+            });
+        }
+        
+        // Function to initialize mobile menu
+        function initMobileMenu() {
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const closeMobileMenuButton = document.getElementById('close-mobile-menu');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const mobileMenuOverlay = document.getElementById('mobile-menu-overlay');
+            const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+            
+            mobileMenuButton.addEventListener('click', function() {
+                mobileMenu.classList.add('open');
+                mobileMenuOverlay.classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+            });
+            
+            function closeMenu() {
+                mobileMenu.classList.remove('open');
+                mobileMenuOverlay.classList.add('hidden');
+                document.body.style.overflow = '';
+            }
+            
+            closeMobileMenuButton.addEventListener('click', closeMenu);
+            mobileMenuOverlay.addEventListener('click', closeMenu);
+            
+            mobileNavLinks.forEach(link => {
+                link.addEventListener('click', closeMenu);
+            });
+        }
+        
+        // Function to initialize back to top button
+        function initBackToTop() {
+            const backToTopButton = document.getElementById('back-to-top');
+            
+            window.addEventListener('scroll', function() {
+                if (window.pageYOffset > 300) {
+                    backToTopButton.classList.remove('opacity-0', 'invisible');
+                    backToTopButton.classList.add('opacity-100', 'visible');
+                } else {
+                    backToTopButton.classList.remove('opacity-100', 'visible');
+                    backToTopButton.classList.add('opacity-0', 'invisible');
+                }
+            });
+            
+            backToTopButton.addEventListener('click', function() {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+        }
+        
+        // Function to initialize smooth scrolling for anchor links
+        function initSmoothScroll() {
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+                    
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        const headerHeight = document.querySelector('header').offsetHeight;
+                        const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - headerHeight;
+                        
+                        window.scrollTo({
+                            top: targetPosition,
+                            behavior: 'smooth'
+                        });
+                        
+                        // Update active nav link
+                        document.querySelectorAll('.nav-link').forEach(link => {
+                            link.classList.remove('active');
+                            if (link.getAttribute('href') === targetId) {
+                                link.classList.add('active');
+                            }
+                        });
+                    }
+                });
+            });
+        }
+        
+        // Function to initialize carousel
+        function initCarousel() {
+            const carouselInner = document.querySelector('.carousel-inner');
+            const carouselItems = document.querySelectorAll('.carousel-item');
+            const prevButton = document.querySelector('.carousel-control-prev');
+            const nextButton = document.querySelector('.carousel-control-next');
+            const indicators = document.querySelectorAll('.carousel-indicator');
+            
+            let currentIndex = 0;
+            const itemWidth = carouselItems[0].offsetWidth;
+            const itemCount = carouselItems.length;
+            
+            // Set initial position
+            carouselInner.style.transform = `translateX(-${currentIndex * itemWidth}px)`;
+            
+            // Update indicators
+            function updateIndicators() {
+                indicators.forEach((indicator, index) => {
+                    if (index === currentIndex) {
+                        indicator.classList.add('active');
+                    } else {
+                        indicator.classList.remove('active');
+                    }
+                });
+            }
+            
+            // Move to next item
+            function nextItem() {
+                currentIndex = (currentIndex + 1) % itemCount;
+                carouselInner.style.transform = `translateX(-${currentIndex * itemWidth}px)`;
+                updateIndicators();
+            }
+            
+            // Move to previous item
+            function prevItem() {
+                currentIndex = (currentIndex - 1 + itemCount) % itemCount;
+                carouselInner.style.transform = `translateX(-${currentIndex * itemWidth}px)`;
+                updateIndicators();
+            }
+            
+            // Event listeners
+            nextButton.addEventListener('click', nextItem);
+            prevButton.addEventListener('click', prevItem);
+            
+            indicators.forEach((indicator, index) => {
+                indicator.addEventListener('click', () => {
+                    currentIndex = index;
+                    carouselInner.style.transform = `translateX(-${currentIndex * itemWidth}px)`;
+                    updateIndicators();
+                });
+            });
+            
+            // Auto slide
+            let autoSlideInterval = setInterval(nextItem, 5000);
+            
+            // Pause auto slide on hover
+            const carousel = document.querySelector('.testimonial-carousel');
+            carousel.addEventListener('mouseenter', () => {
+                clearInterval(autoSlideInterval);
+            });
+            
+            carousel.addEventListener('mouseleave', () => {
+                autoSlideInterval = setInterval(nextItem, 5000);
+            });
+        }
+        
+        // Function to initialize gallery filter
+        function initGalleryFilter() {
+            const filterButtons = document.querySelectorAll('.gallery-filter-btn');
+            const galleryItems = document.querySelectorAll('.gallery-item');
+            
+            filterButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Update active button
+                    filterButtons.forEach(btn => {
+                        btn.classList.remove('active', 'bg-primary');
+                        btn.classList.add('bg-gray-200');
+                    });
+                    this.classList.add('active', 'bg-primary');
+                    this.classList.remove('bg-gray-200');
+                    
+                    const filter = this.getAttribute('data-filter');
+                    
+                    // Filter gallery items
+                    galleryItems.forEach(item => {
+                        if (filter === 'all' || item.classList.contains(filter)) {
+                            item.style.display = 'block';
+                        } else {
+                            item.style.display = 'none';
+                        }
+                    });
+                });
+            });
+        }
+        
+        // Function to initialize AI recommendation form
+        function initAIRecommendation() {
+            const generateButton = document.getElementById('generate-recommendations');
+            const aiResultsContainer = document.getElementById('ai-results-container');
+            const aiInitialState = document.getElementById('ai-initial-state');
+            const aiLoading = document.getElementById('ai-loading');
+            const aiResults = document.getElementById('ai-results');
+            
+            generateButton.addEventListener('click', function() {
+                // Show loading state
+                aiInitialState.style.display = 'none';
+                aiResultsContainer.style.display = 'block';
+                aiLoading.style.display = 'block';
+                aiResults.style.display = 'none';
+                
+                // Simulate AI processing
+                setTimeout(() => {
+                    aiLoading.style.display = 'none';
+                    aiResults.style.display = 'block';
+                }, 2000);
+            });
+        }
+        
+        // Function to initialize booking form
+        function initBookingForm() {
+            const submitButton = document.getElementById('submit-booking');
+            const bookingModal = document.getElementById('booking-modal');
+            const closeModalButton = document.getElementById('close-booking-modal');
+            
+            submitButton.addEventListener('click', function() {
+                // Get form values
+                const service = document.getElementById('service').value;
+                const technician = document.getElementById('technician').value;
+                const date = document.getElementById('date').value;
+                const time = document.getElementById('time').value;
+                
+                // Validate form
+                if (!service || !technician || !date || !time) {
+                    alert('Please fill in all required fields');
+                    return;
+                }
+                
+                // Format date
+                const formattedDate = new Date(date).toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                });
+                
+                // Update modal content
+                document.getElementById('modal-service').textContent = document.getElementById('service').options[document.getElementById('service').selectedIndex].text;
+                document.getElementById('modal-technician').textContent = document.getElementById('technician').options[document.getElementById('technician').selectedIndex].text;
+                document.getElementById('modal-date').textContent = formattedDate;
+                document.getElementById('modal-time').textContent = time;
+                document.getElementById('modal-id').textContent = 'LN' + Math.floor(10000 + Math.random() * 90000);
+                
+                // Show modal
+                bookingModal.classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+            });
+            
+            closeModalButton.addEventListener('click', function() {
+                bookingModal.classList.add('hidden');
+                document.body.style.overflow = '';
+            });
+        }
+        
+        // Function to initialize contact form
+        function initContactForm() {
+            const submitButton = document.getElementById('submit-contact');
+            const contactModal = document.getElementById('contact-modal');
+            const closeModalButton = document.getElementById('close-contact-modal');
+            
+            submitButton.addEventListener('click', function() {
+                // Get form values
+                const name = document.getElementById('contact-name').value;
+                const email = document.getElementById('contact-email').value;
+                const subject = document.getElementById('contact-subject').value;
+                const message = document.getElementById('contact-message').value;
+                
+                // Validate form
+                if (!name || !email || !subject || !message) {
+                    alert('Please fill in all required fields');
+                    return;
+                }
+                
+                // Show modal
+                contactModal.classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+                
+                // Reset form
+                document.getElementById('contact-form').reset();
+            });
+            
+            closeModalButton.addEventListener('click', function() {
+                contactModal.classList.add('hidden');
+                document.body.style.overflow = '';
+            });
+        }
+        
+        // Function to initialize 3D nail model (placeholder for Three.js implementation)
+        function initNailModel() {
+            // This would be implemented with Three.js
+            // For now, we're using a static image
+            console.log('3D nail model would be initialized here with Three.js');
+        }
+    </script>
+
+</body></html>

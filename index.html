@@ -1049,90 +1049,12 @@
             </div>
             
             <div class="flex flex-col lg:flex-row">
-                <!-- Booking Form -->
+                <!-- Direct Booking Link -->
                 <div class="lg:w-2/3 lg:pr-10 mb-10 lg:mb-0">
-                    <div class="bg-white rounded-xl shadow-lg p-8">
-                        <form id="booking-form" class="space-y-6">
-                            <!-- Service Selection -->
-                            <div>
-                                <label for="service" class="block text-gray-700 font-medium mb-2" data-lang="booking-service">Select Service</label>
-                                <select id="service" class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary">
-                                    <option value="" disabled="" selected="" data-lang="booking-select-service">Please select a service</option>
-                                    <option value="basic-manicure" data-lang="service-1-title">Basic Manicure</option>
-                                    <option value="gel-nails" data-lang="service-2-title">Gel Nails</option>
-                                    <option value="nail-art" data-lang="service-3-title">Nail Art</option>
-                                    <option value="spa-pedicure" data-lang="service-4-title">Spa Pedicure</option>
-                                    <option value="acrylic-nails" data-lang="service-5-title">Acrylic Nails</option>
-                                    <option value="nail-repair" data-lang="service-6-title">Nail Repair</option>
-                                </select>
-                            </div>
-                            
-                            <!-- Technician Selection -->
-                            <div>
-                                <label for="technician" class="block text-gray-700 font-medium mb-2" data-lang="booking-technician">Select Technician</label>
-                                <select id="technician" class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary">
-                                    <option value="" disabled="" selected="" data-lang="booking-select-technician">Please select a technician</option>
-                                    <option value="sarah" data-lang="team-member-1">Sarah Johnson - Master Nail Technician</option>
-                                    <option value="lisa" data-lang="team-member-2">Lisa Chen - Gel Specialist</option>
-                                    <option value="maria" data-lang="team-member-3">Maria Rodriguez - Nail Artist</option>
-                                    <option value="jennifer" data-lang="team-member-4">Jennifer Kim - Spa Pedicure Expert</option>
-                                    <option value="any" data-lang="booking-any-available">Any Available Technician</option>
-                                </select>
-                            </div>
-                            
-                            <!-- Date Selection -->
-                            <div>
-                                <label for="date" class="block text-gray-700 font-medium mb-2" data-lang="booking-date">Select Date</label>
-                                <input type="date" id="date" class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary" min="">
-                            </div>
-                            
-                            <!-- Time Selection -->
-                            <div>
-                                <label for="time" class="block text-gray-700 font-medium mb-2" data-lang="booking-time">Select Time</label>
-                                <select id="time" class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary">
-                                    <option value="" disabled="" selected="" data-lang="booking-select-time">Please select a time</option>
-                                    <option value="9:00">9:00 AM</option>
-                                    <option value="10:00">10:00 AM</option>
-                                    <option value="11:00">11:00 AM</option>
-                                    <option value="12:00">12:00 PM</option>
-                                    <option value="1:00">1:00 PM</option>
-                                    <option value="2:00">2:00 PM</option>
-                                    <option value="3:00">3:00 PM</option>
-                                    <option value="4:00">4:00 PM</option>
-                                    <option value="5:00">5:00 PM</option>
-                                </select>
-                            </div>
-                            
-                            <!-- Personal Information -->
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                <div>
-                                    <label for="name" class="block text-gray-700 font-medium mb-2" data-lang="booking-name">Full Name</label>
-                                    <input type="text" id="name" class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary" placeholder="John Doe">
-                                </div>
-                                
-                                <div>
-                                    <label for="phone" class="block text-gray-700 font-medium mb-2" data-lang="booking-phone">Phone Number</label>
-                                    <input type="tel" id="phone" class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary" placeholder="(123) 456-7890">
-                                </div>
-                            </div>
-                            
-                            <div>
-                                <label for="email" class="block text-gray-700 font-medium mb-2" data-lang="booking-email">Email Address</label>
-                                <input type="email" id="email" class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary" placeholder="john@example.com">
-                            </div>
-                            
-                            <div>
-                                <label for="notes" class="block text-gray-700 font-medium mb-2" data-lang="booking-notes">Special Requests or Notes</label>
-                                <textarea id="notes" rows="3" class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary" placeholder="Any special requests or allergies we should know about?"></textarea>
-                            </div>
-                            
-                            <div class="flex items-center">
-                                <input type="checkbox" id="terms" class="mr-2">
-                                <label for="terms" class="text-gray-700" data-lang="booking-terms">I agree to the <a href="#" class="text-accent hover:underline">terms and conditions</a></label>
-                            </div>
-                            
-                            <button type="button" id="submit-booking" class="btn-primary w-full py-3 rounded-lg font-medium text-lg" data-lang="booking-submit">Confirm Booking</button>
-                        </form>
+                    <div class="bg-white rounded-xl shadow-lg p-8 text-center">
+                        <h3 class="text-2xl font-bold font-playfair mb-6" data-lang="booking-title">Book Your Appointment</h3>
+                        <p class="text-lg text-gray-600 mb-8" data-lang="booking-subtitle">Click the button below to book your appointment online.</p>
+                        <a href="https://go.bychronos.com/l/hartsdale-10530-floris-nails--spa-805701/a/services" class="btn-primary px-8 py-4 rounded-lg font-medium text-lg inline-block" target="_blank" rel="noopener noreferrer">Book Now Online</a>
                     </div>
                 </div>
                 
@@ -1345,34 +1267,43 @@
             </div>
             
             <div class="flex flex-col lg:flex-row">
-                <!-- Contact Form -->
+                <!-- Contact Information -->
                 <div class="lg:w-2/3 lg:pr-10 mb-10 lg:mb-0">
                     <div class="bg-white rounded-xl shadow-lg p-8">
-                        <form id="contact-form" class="space-y-6">
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                <div>
-                                    <label for="contact-name" class="block text-gray-700 font-medium mb-2" data-lang="contact-name">Full Name</label>
-                                    <input type="text" id="contact-name" class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary" placeholder="John Doe">
+                        <h3 class="text-2xl font-bold font-playfair mb-6" data-lang="contact-title">Get in Touch</h3>
+                        <p class="text-lg text-gray-600 mb-8" data-lang="contact-subtitle">Have a question or concern? We'd love to hear from you. Contact us using the information below.</p>
+                        
+                        <div class="space-y-6">
+                            <div class="flex items-start">
+                                <div class="bg-primary p-3 rounded-full mr-4">
+                                    <i class="fas fa-map-marker-alt text-dark"></i>
                                 </div>
-                                
                                 <div>
-                                    <label for="contact-email" class="block text-gray-700 font-medium mb-2" data-lang="contact-email">Email Address</label>
-                                    <input type="email" id="contact-email" class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary" placeholder="john@example.com">
+                                    <h4 class="font-bold mb-1" data-lang="address">Address</h4>
+                                    <p class="text-gray-600">123 Luxury Street, Beverly Hills, CA 90210</p>
                                 </div>
                             </div>
                             
-                            <div>
-                                <label for="contact-subject" class="block text-gray-700 font-medium mb-2" data-lang="contact-subject">Subject</label>
-                                <input type="text" id="contact-subject" class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary" placeholder="How can we help you?">
+                            <div class="flex items-start">
+                                <div class="bg-primary p-3 rounded-full mr-4">
+                                    <i class="fas fa-phone-alt text-dark"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold mb-1" data-lang="phone">Phone</h4>
+                                    <p class="text-gray-600">(123) 456-7890</p>
+                                </div>
                             </div>
                             
-                            <div>
-                                <label for="contact-message" class="block text-gray-700 font-medium mb-2" data-lang="contact-message">Message</label>
-                                <textarea id="contact-message" rows="5" class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary" placeholder="Please enter your message here..."></textarea>
+                            <div class="flex items-start">
+                                <div class="bg-primary p-3 rounded-full mr-4">
+                                    <i class="fas fa-envelope text-dark"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold mb-1" data-lang="email">Email</h4>
+                                    <p class="text-gray-600">info@luxurynails.com</p>
+                                </div>
                             </div>
-                            
-                            <button type="button" id="submit-contact" class="btn-primary w-full py-3 rounded-lg font-medium text-lg" data-lang="contact-submit">Send Message</button>
-                        </form>
+                        </div>
                     </div>
                 </div>
                 
@@ -2077,12 +2008,6 @@
             
             // Initialize AI recommendation form
             initAIRecommendation();
-            
-            // Initialize booking form
-            initBookingForm();
-            
-            // Initialize contact form
-            initContactForm();
             
             // Initialize mobile menu
             initMobileMenu();

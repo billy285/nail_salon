@@ -2113,88 +2113,9 @@
             
             // Initialize language switcher
             initLanguageSwitcher();
-            
-            // Initialize reminder system
-            initReminderSystem();
         });
         
-        // Initialize reminder system
-        function initReminderSystem() {
-            console.log('Reminder system initialized');
-            
-            // Check for upcoming bookings and send reminders
-            checkForUpcomingBookings();
-            
-            // Check every hour for upcoming bookings
-            setInterval(checkForUpcomingBookings, 3600000); // 1 hour in milliseconds
-        }
-        
-        // Check for upcoming bookings and send reminders
-        function checkForUpcomingBookings() {
-            const bookings = JSON.parse(localStorage.getItem('bookings') || '[]');
-            const now = new Date();
-            
-            bookings.forEach((booking, index) => {
-                if (!booking.reminderSent) {
-                    const bookingDate = new Date(booking.date + ' ' + booking.time);
-                    const timeDiff = bookingDate.getTime() - now.getTime();
-                    const hoursDiff = timeDiff / (1000 * 3600);
-                    
-                    // Send reminder 24 hours before appointment
-                    if (hoursDiff > 0 && hoursDiff <= 24) {
-                        sendBookingReminder(booking);
-                        booking.reminderSent = true;
-                        bookings[index] = booking;
-                    }
-                }
-            });
-            
-            localStorage.setItem('bookings', JSON.stringify(bookings));
-        }
-        
-        // Send booking reminder
-        function sendBookingReminder(booking) {
-            console.log('Sending reminder for booking:', booking);
-            
-            // Send email reminder
-            const formspreeEndpoint = 'https://formspree.io/f/your-form-id';
-            const reminderEmailData = {
-                to: booking.email,
-                from: 'info@luxurynails.com',
-                subject: 'Reminder: Your Appointment at Luxury Nails',
-                message: `
-Hi ${booking.name},
 
-This is a reminder for your upcoming appointment at Luxury Nails!
-
-Booking ID: ${booking.bookingId}
-Service: ${booking.service}
-Technician: ${booking.technician}
-Date: ${booking.date}
-Time: ${booking.time}
-
-If you need to reschedule or cancel, please contact us at least 24 hours in advance.
-
-Looking forward to seeing you!
-
-Best regards,
-Luxury Nails Team
-                `
-            };
-            
-            sendEmail(formspreeEndpoint, reminderEmailData);
-            
-            // SMS reminder - Note: This requires a service like Twilio
-            // You would need to set up a backend server to send SMS
-            console.log('SMS reminder would be sent to:', booking.phone);
-            console.log('SMS content:', `Reminder: Your Luxury Nails appointment on ${booking.date} at ${booking.time}. Book ID: ${booking.bookingId}`);
-        }
-        
-        // Helper function to show reminders in console for demo
-        function showStoredBookings() {
-            const bookings = JSON.parse(localStorage.getItem('bookings') || '[]');
-            console.log('Stored bookings:', bookings);
-        }
         
         // Function to initialize language switcher
         function initLanguageSwitcher() {
@@ -2423,8 +2344,6 @@ Luxury Nails Team
         // Function to initialize booking form
         function initBookingForm() {
             const submitButton = document.getElementById('submit-booking');
-            const bookingModal = document.getElementById('booking-modal');
-            const closeModalButton = document.getElementById('close-booking-modal');
             const bookingForm = document.getElementById('booking-form');
             
             submitButton.addEventListener('click', function() {
@@ -2436,7 +2355,6 @@ Luxury Nails Team
                 const name = document.getElementById('name').value;
                 const phone = document.getElementById('phone').value;
                 const email = document.getElementById('email').value;
-                const notes = document.getElementById('notes').value;
                 const terms = document.getElementById('terms').checked;
                 
                 // Validate form
@@ -2445,120 +2363,13 @@ Luxury Nails Team
                     return;
                 }
                 
-                // Format date
-                const formattedDate = new Date(date).toLocaleDateString('en-US', {
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric'
-                });
-                
-                // Update modal content
-                document.getElementById('modal-service').textContent = document.getElementById('service').options[document.getElementById('service').selectedIndex].text;
-                document.getElementById('modal-technician').textContent = document.getElementById('technician').options[document.getElementById('technician').selectedIndex].text;
-                document.getElementById('modal-date').textContent = formattedDate;
-                document.getElementById('modal-time').textContent = time;
-                document.getElementById('modal-id').textContent = 'LN' + Math.floor(10000 + Math.random() * 90000);
-                
-                // Send email using Formspree
-                sendBookingEmail({
-                    service: document.getElementById('service').options[document.getElementById('service').selectedIndex].text,
-                    technician: document.getElementById('technician').options[document.getElementById('technician').selectedIndex].text,
-                    date: formattedDate,
-                    time: time,
-                    name: name,
-                    phone: phone,
-                    email: email,
-                    notes: notes,
-                    bookingId: document.getElementById('modal-id').textContent
-                });
-                
-                // Show modal
-                bookingModal.classList.remove('hidden');
-                document.body.style.overflow = 'hidden';
-            });
-            
-            closeModalButton.addEventListener('click', function() {
-                bookingModal.classList.add('hidden');
-                document.body.style.overflow = '';
-                bookingForm.reset();
+                // Redirect to external booking link
+                const bookingUrl = 'https://go.bychronos.com/l/hartsdale-10530-floris-nails--spa-805701/a/services';
+                window.location.href = bookingUrl;
             });
         }
         
-        // Function to send booking email
-        function sendBookingEmail(data) {
-            // Using Formspree - replace with your Formspree endpoint
-            // First, you need to create a Formspree account at https://formspree.io/
-            const formspreeEndpoint = 'https://formspree.io/f/your-form-id'; // Replace with your actual Formspree ID
-            
-            const emailData = {
-                to: 'info@luxurynails.com',
-                from: data.email,
-                subject: 'New Booking Request - ' + data.bookingId,
-                message: `
-New Booking Request:
 
-Booking ID: ${data.bookingId}
-Customer Name: ${data.name}
-Phone: ${data.phone}
-Email: ${data.email}
-
-Service: ${data.service}
-Technician: ${data.technician}
-Date: ${data.date}
-Time: ${data.time}
-
-Notes: ${data.notes || 'No notes provided'}
-
----
-Please respond to this booking request as soon as possible.
-                `
-            };
-            
-            // Send confirmation email to customer
-            sendEmail(formspreeEndpoint, emailData);
-            
-            // Also save to localStorage for SMS reminder
-            saveBookingToLocalStorage(data);
-        }
-        
-        // Function to send email via Formspree
-        function sendEmail(endpoint, data) {
-            // For demo purposes, we'll just log it
-            console.log('Sending email:', data);
-            
-            // Uncomment below for actual Formspree integration
-            /*
-            fetch(endpoint, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(data)
-            })
-            .then(response => {
-                if (response.ok) {
-                    console.log('Email sent successfully');
-                } else {
-                    console.error('Error sending email');
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
-            */
-        }
-        
-        // Save booking to localStorage for SMS reminders
-        function saveBookingToLocalStorage(data) {
-            let bookings = JSON.parse(localStorage.getItem('bookings') || '[]');
-            bookings.push({
-                ...data,
-                timestamp: new Date().toISOString(),
-                reminderSent: false
-            });
-            localStorage.setItem('bookings', JSON.stringify(bookings));
-            console.log('Booking saved to localStorage for reminders');
-        }
         
         // Function to initialize contact form
         function initContactForm() {
@@ -2580,14 +2391,6 @@ Please respond to this booking request as soon as possible.
                     return;
                 }
                 
-                // Send contact email
-                sendContactEmail({
-                    name: name,
-                    email: email,
-                    subject: subject,
-                    message: message
-                });
-                
                 // Show modal
                 contactModal.classList.remove('hidden');
                 document.body.style.overflow = 'hidden';
@@ -2602,31 +2405,7 @@ Please respond to this booking request as soon as possible.
             });
         }
         
-        // Function to send contact email
-        function sendContactEmail(data) {
-            const formspreeEndpoint = 'https://formspree.io/f/your-form-id'; // Replace with your actual Formspree ID
-            
-            const emailData = {
-                to: 'info@luxurynails.com',
-                from: data.email,
-                subject: 'Contact Form: ' + data.subject,
-                message: `
-New Contact Message:
 
-From: ${data.name}
-Email: ${data.email}
-Subject: ${data.subject}
-
-Message:
-${data.message}
-
----
-Sent from Luxury Nails website contact form
-                `
-            };
-            
-            sendEmail(formspreeEndpoint, emailData);
-        }
         
         // Function to initialize 3D nail model (placeholder for Three.js implementation)
         function initNailModel() {
